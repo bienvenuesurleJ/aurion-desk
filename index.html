@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#04070d">
+  <title>AURION</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #04070d;
+      --ink-2: #071018;
+      --panel: #0a1522;
+      --panel-2: #102033;
+      --line: #1a3348;
+      --line-soft: #10202e;
+      --ivory: #e8f4ff;
+      --muted: #7d97ad;
+      --faint: #4e677c;
+      --gold: #39e7ff;
+      --jade: #3dffc0;
+      --rose: #ff4d78;
+      --sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--ink); color: var(--ivory); font-family: var(--sans); }
+    body {
+      min-height: 100dvh;
+      background-image:
+        linear-gradient(rgba(57, 231, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(57, 231, 255, 0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+    .shell { display: flex; flex-direction: column; height: 100dvh; width: min(100%, 28rem); margin: 0 auto; }
+    header.app {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1rem;
+    }
+    .mark {
+      display: grid; place-items: center; width: 2.75rem; height: 2.75rem;
+      border-radius: 0.25rem; background: var(--ink-2); flex: none;
+    }
+    .titles { min-width: 0; flex: 1; }
+    .titles strong { display: block; font-size: 0.875rem; letter-spacing: 0.04em; }
+    .sub, .num { font-family: var(--mono); }
+    .sub { font-size: 0.75rem; color: var(--faint); }
+    .chip {
+      font-family: var(--mono); font-size: 0.75rem; color: var(--faint);
+      border: 1px solid var(--line); border-radius: 0.25rem; padding: 0.25rem 0.5rem;
+    }
+    .live {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      height: 2.75rem; padding: 0 0.75rem; font-size: 0.75rem; font-weight: 600;
+    }
+    .live.on { color: var(--jade); }
+    .live.off { color: var(--muted); }
+    .dot { width: 0.4rem; height: 0.4rem; border-radius: 999px; background: currentColor; }
+    .live.on .dot { animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: 0.35; } }
+    .body { flex: 1; min-height: 0; overflow: auto; padding-bottom: 1.5rem; }
+    .pad { padding: 0 1rem; }
+    .kicker { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.18em; color: var(--faint); text-align: center; margin: 0 0 0.75rem; }
+    .card { border: 1px solid var(--line); background: color-mix(in srgb, var(--panel) 88%, transparent); border-radius: 0.5rem; }
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem 0.6rem; padding: 1rem; }
+    .app-btn, .app-cell { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+    .tile {
+      position: relative; width: 4rem; height: 4rem; border-radius: 0.5rem;
+      display: grid; place-items: center;
+    }
+    .tile.ring { box-shadow: 0 0 0 2px var(--gold); }
+    .plus {
+      position: absolute; right: -0.25rem; bottom: -0.25rem;
+      width: 1.25rem; height: 1.25rem; border-radius: 999px;
+      background: var(--rose); color: var(--ivory); font-size: 0.75rem; font-weight: 600;
+      display: grid; place-items: center;
+    }
+    .app-name { font-size: 0.75rem; color: var(--muted); }
+    .hint { text-align: center; color: var(--muted); font-size: 0.875rem; margin: 1rem 0 0; }
+    .center { display: flex; flex-direction: column; align-items: center; padding: 2rem 1rem 0; }
+    h1 { font-size: 1.5rem; font-weight: 600; margin: 1.5rem 0 0; }
+    .muted { color: var(--muted); }
+    .faint { color: var(--faint); }
+    .jade { color: var(--jade); }
+    .rose { color: var(--rose); }
+    .gold { color: var(--gold); }
+    .face {
+      margin-top: 2rem; width: 100%; text-align: center; padding: 1.5rem;
+    }
+    .scan {
+      width: 6rem; height: 6rem; margin: 0 auto; border-radius: 0.5rem;
+      display: grid; place-items: center; border: 2px solid var(--gold); color: var(--gold);
+    }
+    .scan.ok { border-color: var(--jade); color: var(--jade); }
+    .face h2 { margin: 1rem 0 0; font-size: 1.125rem; }
+    .text-btn { height: 2.75rem; margin-top: 1rem; font-size: 0.875rem; font-weight: 600; }
+    .conn { margin-top: 1rem; padding: 1rem; width: 100%; }
+    .label { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.16em; color: var(--faint); }
+    .row { display: flex; align-items: center; gap: 0.75rem; }
+    .grow { flex: 1; min-width: 0; }
+    .badge { border-radius: 0.25rem; padding: 0.25rem 0.5rem; font-size: 0.75rem; font-weight: 600; }
+    .badge.on { background: color-mix(in srgb, var(--jade) 15%, transparent); color: var(--jade); }
+    .sq { width: 2.75rem; height: 2.75rem; border-radius: 0.25rem; background: var(--ink-2); display: grid; place-items: center; flex: none; }
+    .bar { margin-top: 0.75rem; height: 0.25rem; background: var(--line); border-radius: 999px; overflow: hidden; }
+    .bar span { display: block; height: 100%; background: var(--jade); border-radius: 999px; }
+    .eq { font-family: var(--mono); font-size: 2.25rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+    .delta { font-family: var(--mono); margin-top: 0.35rem; font-size: 0.875rem; color: var(--jade); }
+    .split { display: flex; align-items: flex-end; justify-content: space-between; gap: 0.75rem; }
+    .chart { position: relative; height: 9rem; }
+    .chart svg { width: 100%; height: 100%; display: block; }
+    .axis {
+      position: absolute; inset: 0.25rem 0 auto auto; width: 3rem; height: calc(100% - 0.5rem);
+      display: flex; flex-direction: column; justify-content: space-between;
+      text-align: right; font-family: var(--mono); font-size: 0.75rem; color: var(--faint);
+    }
+    .tfs { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.75rem; color: var(--faint); margin-top: 0.25rem; }
+    .tfs .on { color: var(--ivory); border-bottom: 1px solid var(--jade); padding-bottom: 0.25rem; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 1rem; padding: 0.75rem; }
+    .stats b, .stat b { display: block; margin-top: 0.25rem; font-family: var(--mono); font-weight: 500; font-size: 0.875rem; }
+    h3 { font-size: 0.875rem; margin: 1.25rem 0 0.5rem; }
+    .pos, .fill, .feat { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; }
+    .glyph {
+      width: 2.25rem; height: 2.25rem; border-radius: 0.25rem; display: grid; place-items: center;
+      font-weight: 600; color: var(--ink); flex: none;
+    }
+    .fills { margin: 0; padding: 0; list-style: none; }
+    .fills li { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0.75rem; border-top: 1px solid var(--line-soft); }
+    .fills li:first-child { border-top: 0; }
+    .right { text-align: right; }
+    .tiny { font-size: 0.75rem; }
+    .agents { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; font-family: var(--mono); font-size: 0.75rem; color: var(--faint); margin-top: 0.5rem; }
+    .micro { font-family: var(--mono); font-size: 2rem; font-weight: 600; letter-spacing: -0.03em; }
+    .candles { width: 100%; height: 11rem; display: block; }
+    .between { display: flex; align-items: center; justify-content: space-between; }
+    .sell {
+      margin-top: 1rem; height: 3rem; border-radius: 0.25rem;
+      display: grid; place-items: center; font-weight: 600; font-size: 0.875rem;
+    }
+    .sell.arm { background: var(--jade); color: var(--ink); }
+    .sell.in { background: var(--rose); color: var(--ivory); }
+    .toast {
+      margin-top: 1rem; display: flex; justify-content: space-between; gap: 0.75rem;
+      background: color-mix(in srgb, var(--jade) 15%, transparent); color: var(--jade);
+      border-radius: 0.25rem; padding: 0.75rem; font-size: 0.875rem;
+    }
+    .report-eq { font-family: var(--mono); font-size: 2.25rem; font-weight: 600; }
+    .line { display: flex; justify-content: space-between; font-size: 0.875rem; margin-top: 0.5rem; }
+    .ico { width: 2rem; height: 2rem; display: block; }
+    .ico.sm { width: 1.25rem; height: 1.25rem; }
+    .ico.md { width: 1.5rem; height: 1.5rem; }
+    .ico.lg { width: 2.5rem; height: 2.5rem; }
+    .ico.xl { width: 4rem; height: 4rem; }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    const LOOP = 36000;
+    const OPENING = 1240.8;
+    const ENTRY = 0.000054;
+    const EXIT = 0.0000749;
+    const ORDER = 548.4;
+    const MARKS = [
+      { at: 0, phase: "grid", scene: 0 },
+      { at: 2600, phase: "unlock", scene: 0 },
+      { at: 5600, phase: "link", scene: 0 },
+      { at: 7800, phase: "desk", scene: 0 },
+      { at: 13200, phase: "trade", scene: 0 },
+      { at: 23000, phase: "desk", scene: 1 },
+      { at: 28600, phase: "report", scene: 1 }
+    ];
+    const FILLS_A = [
+      { name: "REX", side: "Buy", px: 224.25 },
+      { name: "PULP", side: "Buy", px: 276.4 },
+      { name: "VEX", side: "Sell", px: 308.12, pnl: 31.72 },
+      { name: "KITE", side: "Buy", px: 336.2 },
+      { name: "ORB", side: "Stop", px: 201.71, pnl: -22.34 },
+      { name: "MINT", side: "Sell", px: 391.43, pnl: 55.23 },
+      { name: "NOVA", side: "Buy", px: 355.2 }
+    ];
+    const FILLS_B = [
+      { name: "FANG", side: "Buy", px: 406.27 },
+      { name: "KITE", side: "Sell", px: 507.93, pnl: 101.66 },
+      { name: "NOVA", side: "Sell", px: 498.5, pnl: 63.12 },
+      { name: "ORB", side: "Buy", px: 498.16 },
+      { name: "REX", side: "Stop", px: 451.17, pnl: -77.13 },
+      { name: "NYX", side: "Sell", px: 761.02, pnl: 212.62 },
+      { name: "MINT", side: "Buy", px: 481.7 },
+      { name: "VEX", side: "Sell", px: 702.69, pnl: 151.62 },
+      { name: "KITE", side: "Buy", px: 588.4 },
+      { name: "PULP", side: "Sell", px: 768.84, pnl: 171.64 }
+    ];
+    const POS_A = [
+      { name: "REX", usd: 224.25, tone: "ivory" },
+      { name: "KITE", usd: 336.2, tone: "gold" },
+      { name: "NOVA", usd: 355.2, tone: "jade" },
+      { name: "PULP", usd: 382.1, tone: "rose" }
+    ];
+    const POS_B = [
+      { name: "REX", usd: 528.3, tone: "ivory" },
+      { name: "NOVA", usd: 551.07, tone: "jade" },
+      { name: "MINT", usd: 481.7, tone: "gold" },
+      { name: "PULP", usd: 588.4, tone: "rose" },
+      { name: "FANG", usd: 606.05, tone: "ivory" },
+      { name: "ORB", usd: 626.4, tone: "gold" }
+    ];
+    const TONE = { jade: "#3dffc0", rose: "#ff4d78", gold: "#39e7ff", ivory: "#e8f4ff" };
+    const TILE = {
+      vertex: ["#071018", "#e8f4ff"],
+      shade: ["#102033", "#e8f4ff"],
+      orbit: ["#071018", "#39e7ff"],
+      volt: ["#39e7ff", "#04070d"],
+      capsule: ["#3dffc0", "#04070d"],
+      harbor: ["#102033", "#39e7ff"],
+      lens: ["#e8f4ff", "#04070d"],
+      pack: ["#ff4d78", "#e8f4ff"],
+      aurion: ["#04070d", "#e8f4ff"]
+    };
+    const APPS = ["vertex", "shade", "orbit", "volt", "capsule", "harbor", "lens", "pack", "aurion"];
+    const NAMES = { vertex: "Vertex", shade: "Shade", orbit: "Orbit", volt: "Volt", capsule: "Capsule", harbor: "Harbor", lens: "Lens", pack: "Pack", aurion: "Aurion" };
+
+    function candles() {
+      let price = 0.0000462;
+      const rows = [];
+      for (let i = 0; i < 46; i++) {
+        const drift = i < 20 ? 0.00000035 : 0.00000105;
+        const wobble = (((i * 37) % 9) - 4) * 0.00000028;
+        const o = price;
+        const c = Math.max(0.00003, price + drift + wobble);
+        rows.push({ o, h: Math.max(o, c) + 0.00000055, l: Math.min(o, c) - 0.00000045, c, v: 18 + ((i * 13) % 30) });
+        price = c;
+      }
+      return rows;
+    }
+    const CANDLES = candles();
+
+    let elapsed = 0;
+    let playing = true;
+    let pin = null;
+    let lastPhase = "";
+    const root = document.getElementById("app");
+
+    function readClock(t) {
+      const x = ((t % LOOP) + LOOP) % LOOP;
+      let i = 0;
+      for (let k = 0; k < MARKS.length; k++) if (x >= MARKS[k].at) i = k;
+      const next = MARKS[i + 1] ? MARKS[i + 1].at : LOOP;
+      return { phase: MARKS[i].phase, scene: MARKS[i].scene, local: (x - MARKS[i].at) / (next - MARKS[i].at) };
+    }
+    function sample(stops, t) {
+      const u = Math.min(1, Math.max(0, t));
+      const x = u * (stops.length - 1);
+      const i = Math.min(stops.length - 2, Math.floor(x));
+      return stops[i] + (stops[i + 1] - stops[i]) * (x - i);
+    }
+    function usd(n) {
+      return "$" + Math.abs(n).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function signedUsd(n) {
+      if (n > 0.004) return "+" + usd(n);
+      if (n < -0.004) return "−" + usd(n);
+      return usd(0);
+    }
+    function micro(n) { return "$" + n.toFixed(7); }
+    function mark(cls) {
+      return `<svg viewBox="0 0 32 32" class="ico ${cls || ""}" aria-hidden="true"><path d="M4 26V6h8.2L16 14.2 19.8 6H28v20h-5.2V13.4L16 24.2 9.2 13.4V26H4Z" fill="currentColor"/></svg>`;
+    }
+    function glyphIcon(kind, cls) {
+      const c = `ico ${cls || ""}`;
+      if (kind === "aurion") return mark(cls);
+      const paths = {
+        vertex: `<path d="M16 6 27 25H5L16 6Z" fill="currentColor"/>`,
+        shade: `<path d="M8 16a8 8 0 1 1 16 0 10 10 0 0 0-16 0Z" fill="currentColor"/>`,
+        orbit: `<g fill="none" stroke="currentColor" stroke-width="2"><circle cx="16" cy="16" r="5"/><ellipse cx="16" cy="16" rx="12" ry="6"/></g>`,
+        volt: `<path d="M18 4 8 18h7l-1 10 10-14h-7l1-10Z" fill="currentColor"/>`,
+        capsule: `<rect x="7" y="10" width="18" height="12" rx="6" fill="currentColor"/>`,
+        harbor: `<circle cx="16" cy="16" r="8" fill="none" stroke="currentColor" stroke-width="3"/>`,
+        lens: `<path d="M6 16s4-7 10-7 10 7 10 7-4 7-10 7S6 16 6 16Zm6 0a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z" fill="currentColor"/>`,
+        pack: `<path d="M10 10h12v14H10V10Zm4-4h4v4h-4V6Z" fill="currentColor"/>`
+      };
+      return `<svg viewBox="0 0 32 32" class="${c}" aria-hidden="true">${paths[kind]}</svg>`;
+    }
+    function letter(name, tone) {
+      return `<span class="glyph" style="background:${TONE[tone]}">${name.slice(0, 1)}</span>`;
+    }
+    function tile(kind) {
+      const live = kind === "aurion";
+      const [bg, fg] = TILE[kind];
+      return `<span class="tile${live ? " ring" : ""}" style="background:${bg};color:${fg}">${glyphIcon(kind)}${live ? `<span class="plus">+</span>` : ""}</span><span class="app-name">${NAMES[kind]}</span>`;
+    }
+    function area(values, axis) {
+      const w = 320, h = 128;
+      const min = Math.min.apply(null, values);
+      const max = Math.max.apply(null, values);
+      const pts = values.map((v, i) => {
+        const x = (i / (values.length - 1)) * w;
+        const y = 10 + (1 - (v - min) / (max - min || 1)) * (h - 24);
+        return [x, y];
+      });
+      const d = pts.map((p, i) => `${i ? "L" : "M"}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
+      const last = pts[pts.length - 1];
+      return `<div class="chart"><div style="height:100%;padding-right:3rem"><svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Equity curve"><path d="${d} L${w},${h} L0,${h} Z" fill="#39e7ff" opacity="0.14"/><path d="${d}" fill="none" stroke="#e8f4ff" stroke-width="2"/><circle cx="${last[0]}" cy="${last[1]}" r="3.2" fill="#e8f4ff"/></svg></div><div class="axis">${axis.map((l) => `<span>${l}</span>`).join("")}</div></div>`;
+    }
+    function candleSvg(shown, entryAt, exitAt) {
+      const view = CANDLES.slice(0, shown);
+      const w = 320, h = 150, volH = 28;
+      let lo = Infinity, hi = -Infinity, maxV = 1;
+      view.forEach((c) => { lo = Math.min(lo, c.l); hi = Math.max(hi, c.h); maxV = Math.max(maxV, c.v); });
+      const span = hi - lo || 1;
+      lo -= span * 0.08; hi += span * 0.12;
+      const plotH = h - volH - 8;
+      const slot = w / Math.max(view.length, 1);
+      const y = (v) => ((hi - v) / (hi - lo)) * plotH;
+      const bars = view.map((c, i) => {
+        const up = c.c >= c.o;
+        const x = i * slot + slot * 0.5;
+        const body = Math.max(1.2, slot * 0.55);
+        const top = y(Math.max(c.o, c.c));
+        const bot = y(Math.min(c.o, c.c));
+        const color = up ? "#3dffc0" : "#ff4d78";
+        return `<g><line x1="${x}" x2="${x}" y1="${y(c.h)}" y2="${y(c.l)}" stroke="${color}" stroke-width="1"/><rect x="${x - body / 2}" y="${top}" width="${body}" height="${Math.max(1, bot - top)}" fill="${color}"/><rect x="${x - body / 2}" y="${h - (c.v / maxV) * volH}" width="${body}" height="${(c.v / maxV) * volH}" fill="${color}" opacity="0.45"/></g>`;
+      }).join("");
+      let tags = "";
+      if (entryAt != null && entryAt < shown) tags += `<text x="${entryAt * slot + 2}" y="${y(view[entryAt].l) + 14}" fill="#3dffc0" font-size="10">Buy</text>`;
+      if (exitAt != null && exitAt < shown) tags += `<text x="${Math.max(0, exitAt * slot - 22)}" y="${y(view[exitAt].h) - 4}" fill="#ff4d78" font-size="10">Sell</text>`;
+      return `<svg class="candles" viewBox="0 0 ${w} ${h}" role="img" aria-label="Candles">${bars}${tags}</svg>`;
+    }
+    function stat(k, v, tone) {
+      return `<div class="stat"><div class="tiny faint">${k}</div><b class="${tone || ""}">${v}</b></div>`;
+    }
+    function header(phase) {
+      const title = phase === "trade" ? "NYX" : "AURION";
+      const sub = phase === "trade" ? "Night Cat · spot" : "Solana spot";
+      const back = phase === "trade" || phase === "report" || phase === "unlock" || phase === "link";
+      const backAct = phase === "trade" || phase === "report" ? "desk" : "grid";
+      const lead = back
+        ? `<button class="mark" data-act="${backAct}" aria-label="Back"><svg viewBox="0 0 24 24" class="ico sm"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></button>`
+        : `<span class="mark">${mark("sm")}</span>`;
+      return `<header class="app">${lead}<div class="titles"><strong>${title}</strong><div class="sub">${sub}</div></div><span class="chip">PAPER</span><button class="live ${playing ? "on" : "off"}" data-act="live"><span class="dot"></span>${playing ? "Live" : "Paused"}</button></header>`;
+    }
+    function screenGrid() {
+      const cells = APPS.map((id) => {
+        const inner = tile(id);
+        return id === "aurion"
+          ? `<button class="app-btn" data-act="open">${inner}</button>`
+          : `<div class="app-cell">${inner}</div>`;
+      }).join("");
+      return `<div class="pad" style="padding-top:1.5rem"><p class="kicker">SESSION CONCEPT</p><div class="card"><div class="grid3">${cells}</div></div><p class="hint">Open Aurion. The desk is already armed.</p></div>`;
+    }
+    function connection(locked) {
+      return `<div class="card conn"><div class="label">TRADING CONNECTION</div><div class="row" style="margin-top:0.75rem"><span class="sq">${glyphIcon("vertex", "md")}</span><div class="grow"><div>Vertex</div><div class="tiny faint">Solana mainnet</div></div><span class="badge ${locked ? "faint" : "on"}">${locked ? "Locked" : "Connected"}</span></div></div>`;
+    }
+    function screenUnlock(local) {
+      const verified = local > 0.62;
+      const face = verified
+        ? `<path d="M16 24.5 21.5 30 33 18" fill="none" stroke="currentColor" stroke-width="2.4"/>`
+        : `<path d="M17 22h3M28 22h3M18 30c2.2 2 9.8 2 12 0" fill="none" stroke="currentColor" stroke-width="2"/>`;
+      return `<div class="center">${mark("xl")}<h1>Opening Aurion</h1><p class="muted" style="margin:0.25rem 0 0">Restore your trading session</p><div class="card face"><div class="scan ${verified ? "ok" : ""}"><svg viewBox="0 0 48 48" class="ico lg"><path d="M10 16V12h6M32 12h6v4M10 32v4h6M32 36h6v-4" fill="none" stroke="currentColor" stroke-width="2"/>${face}</svg></div><h2>Face ID</h2><p class="muted tiny">${verified ? "Identity confirmed" : "Look at your iPhone to unlock"}</p><button class="text-btn ${verified ? "jade" : "gold"}" data-act="grid">${verified ? "Verified" : "Cancel"}</button></div>${connection(!verified)}</div>`;
+    }
+    function screenLink(local) {
+      const pct = Math.round(local * 100);
+      return `<div class="center" style="padding-top:2.5rem"><span class="sq" style="width:5rem;height:5rem;border-radius:0.5rem">${mark("lg")}</span><h1>Opening Aurion</h1><p class="muted" style="margin:0.25rem 0 0">Restore your trading session</p><div class="card" style="margin-top:2rem;padding:1rem;width:100%"><div class="row"><span class="sq">${glyphIcon("vertex", "md")}</span><div class="grow"><div style="font-weight:600">Vertex session unlocked</div><div class="tiny muted">Opening trading desk</div></div><span class="jade">✓</span></div><div class="bar"><span style="width:${pct}%"></span></div></div>${connection(false)}</div>`;
+    }
+    function screenDesk(scene, local) {
+      const equity = sample(scene === 0 ? [1272.82, 1263.4, 1365.26, 1425.39] : [2148.82, 2357.99, 2581.45, 2723.24], local);
+      const pnl = equity - OPENING;
+      const pct = (pnl / OPENING) * 100;
+      const realized = sample(scene === 0 ? [0, 9.18, 64.41, 194.39] : [816.13, 1012.1, 1242.01, 1358.33], local);
+      const turnover = sample(scene === 0 ? [500.65, 1346.68, 2374.11, 3811.43] : [12009, 15318, 18315, 19664], local);
+      const dd = sample(scene === 0 ? [0.29, 2.24, 2.24, 2.35] : [3.42, 3.42, 3.42, 3.42], local);
+      const positions = scene === 0 ? POS_A : POS_B;
+      const pos = positions[Math.min(positions.length - 1, Math.floor(local * positions.length))];
+      const fills = (scene === 0 ? FILLS_A : FILLS_B).slice(0, 1 + Math.floor(local * (scene === 0 ? 6 : 8))).slice().reverse();
+      const curve = scene === 0
+        ? [1248, 1255, 1246, 1268, 1290, 1272, 1320, 1348, 1330, 1388, 1410, equity]
+        : [1700, 1820, 1900, 1980, 2100, 2220, 2310, 2440, 2520, 2610, 2680, equity];
+      const axis = scene === 0 ? ["1,425", "1,360", "1,290", "1,225"] : ["2,720", "2,200", "1,700", "1,240"];
+      const rows = fills.map((row) => {
+        const tone = row.side === "Stop" ? "rose" : row.side === "Sell" ? "gold" : "ivory";
+        const side = row.side === "Buy" ? "jade" : "rose";
+        return `<li>${letter(row.name, tone)}<div class="grow"><div style="font-weight:600">${row.name}</div><div class="tiny ${side}">${row.side}</div></div><div class="right"><div class="num">${usd(row.px)}</div>${row.pnl != null ? `<div class="num tiny ${row.pnl >= 0 ? "jade" : "rose"}">${signedUsd(row.pnl)}</div>` : ""}</div></li>`;
+      }).join("");
+      return `<div class="pad"><div class="tiny muted">Total equity</div><div class="split" style="margin-top:0.35rem"><div><div class="eq">${usd(equity)}</div><div class="delta">${signedUsd(pnl)} (${pct >= 0 ? "+" : "−"}${Math.abs(pct).toFixed(2)}%)</div></div><div class="tiny faint" style="padding-bottom:0.25rem">USDC</div></div><div style="margin-top:0.75rem">${area(curve, axis)}</div><div class="tfs">${["Open", "1h", "4h", "Session", "1w"].map((tf) => `<span class="${tf === "Session" ? "on" : ""}">${tf}</span>`).join("")}</div><div class="card stats">${stat("Realized P/L", signedUsd(realized), "jade")}${stat("Turnover", usd(turnover))}${stat("Max drawdown", dd.toFixed(2) + "%", "rose")}</div><h3>Positions</h3><div class="card pos">${letter(pos.name, pos.tone)}<div class="grow"><div style="font-weight:600">${pos.name} / USDC</div><div class="tiny faint">Open position · ${usd(pos.usd)}</div></div><svg viewBox="0 0 64 24" width="64" height="24" aria-hidden="true"><path d="M2 18 14 16 24 12 36 14 48 6 62 4" fill="none" stroke="#3dffc0" stroke-width="2"/></svg></div><div class="between" style="margin-top:1.25rem"><h3 style="margin:0">Recent fills</h3><span class="num tiny faint">${fills.length} fills</span></div><ul class="card fills">${rows}</ul><div class="between" style="margin-top:1.25rem"><h3 style="margin:0">Agents</h3><span class="tiny jade">5 online</span></div><div class="agents"><span>Score</span><span>Route</span><span>Risk</span><span>Fill</span></div></div>`;
+    }
+    function screenTrade(local) {
+      const armed = local > 0.18;
+      const closed = local > 0.9;
+      const price = closed ? EXIT : sample([0.0000525, 0.000054, ENTRY, 0.0000634, 0.0000681, 0.0000729, EXIT], Math.min(local, 0.9) / 0.9);
+      const shown = Math.max(16, Math.min(CANDLES.length, Math.floor(16 + local * 28)));
+      const entryAt = armed ? 18 : null;
+      const exitAt = closed ? Math.min(shown - 1, 40) : null;
+      const value = ORDER * (price / ENTRY);
+      const openPnl = value - ORDER;
+      const realized = ORDER * (EXIT / ENTRY - 1);
+      const cash = !armed ? 1597.21 : closed ? 1597.21 + realized : 1597.21 - ORDER;
+      const equity = armed && !closed ? cash + value : cash;
+      const state = closed ? "Exit filled" : armed ? "In position" : "Routing";
+      const stateCls = closed ? "jade" : armed ? "gold" : "faint";
+      const action = closed
+        ? `<div class="toast"><span>Position closed · sell filled on Vertex</span><span class="num">${signedUsd(realized)}</span></div>`
+        : `<div class="sell ${armed ? "in" : "arm"}">Sell NYX</div>`;
+      return `<div class="pad"><div class="between" style="align-items:flex-start"><div><div class="tiny muted">Mark price</div><div class="micro">${micro(price)}</div></div><span class="tiny ${stateCls}" style="margin-top:0.25rem">${state}</span></div><div class="stats" style="padding:0">${stat("Cash available", usd(cash))}${stat("Session equity", usd(equity))}${stat("Order size", usd(ORDER))}</div><div class="between" style="margin-top:1rem"><h3 style="margin:0">Candles</h3><div class="tfs" style="gap:0.75rem;margin:0">${["15s", "1m", "5m", "15m"].map((tf) => `<span class="${tf === "15s" ? "on" : ""}">${tf}</span>`).join("")}</div></div>${candleSvg(shown, entryAt, exitAt)}<div class="between num tiny faint"><span>Earlier</span><span>Entry</span></div><h3>Order details</h3><div class="card stats">${stat("Order size", usd(ORDER))}${stat("Value", armed ? usd(value) : "—", armed ? "jade" : "")}${stat(closed ? "Realized P/L" : "Position P/L", armed ? signedUsd(closed ? realized : openPnl) : "—", "jade")}</div><div class="line"><span class="muted">Route</span><span>Vertex spot</span></div><div class="line"><span class="muted">Buy fill</span><span class="num">${armed ? micro(ENTRY) : "Pending"}</span></div><div class="line"><span class="muted">Sell fill</span><span class="num">${closed ? micro(EXIT) : "Pending"}</span></div>${action}</div>`;
+    }
+    function screenReport() {
+      const history = [1240, 1320, 1410, 1500, 1680, 1820, 2050, 2280, 2460, 2610, 2733];
+      const out = ORDER * (EXIT / ENTRY);
+      const pnl = ORDER * (EXIT / ENTRY - 1);
+      return `<div class="pad"><div class="between"><div class="row"><span class="sq">${glyphIcon("vertex", "md")}</span><div><div style="font-weight:600">Vertex</div><div class="sub">Solana spot · 21:18</div></div></div><span class="tiny jade" style="font-weight:600">Done</span></div><h1 style="font-size:1.875rem">Trade report</h1><div class="tiny muted" style="margin-top:1rem">Closing equity</div><div class="split" style="margin-top:0.35rem"><div class="report-eq">${usd(2733.21)}</div><div class="num jade">+120.3%</div></div><div class="line"><span class="muted">Opening equity</span><span class="num">${usd(OPENING)}</span></div><div class="line"><span class="muted">Realized P/L</span><span class="num jade">${signedUsd(1492.41)}</span></div><h3>Session stats</h3><div class="stats" style="padding:0">${stat("Win rate", "77%", "jade")}${stat("Max drawdown", "3.42%", "rose")}${stat("Turnover", usd(20424.61))}${stat("Gross profit", signedUsd(1750.25), "jade")}${stat("Gross loss", signedUsd(-257.84), "rose")}${stat("Profit factor", "6.79×")}</div><p class="num tiny faint" style="text-align:right">22 trades · 44 fills</p><h3>Featured trade</h3><div class="card feat">${letter("NYX", "rose")}<div class="grow"><div style="font-weight:600">NYX / USDC</div><div class="num tiny faint">${usd(ORDER)} in · ${usd(out)} out</div></div><div class="num jade">${signedUsd(pnl)}</div></div><h3>Equity history</h3>${area(history, ["2.7k", "2.2k", "1.7k", "1.2k"])}<p class="tiny faint" style="text-align:center;margin-top:1rem">Session concept · paper desk. No live exchange.</p><button class="text-btn gold" data-act="replay" style="width:100%">Replay session</button></div>`;
+    }
+    function view() {
+      const clock = readClock(elapsed);
+      const phase = pin || clock.phase;
+      const local = pin ? (phase === "link" ? 0.72 : phase === "desk" ? 0.62 : phase === "trade" ? 0.55 : 0.45) : clock.local;
+      let body = "";
+      if (phase === "grid") body = screenGrid();
+      else if (phase === "unlock") body = screenUnlock(local);
+      else if (phase === "link") body = screenLink(local);
+      else if (phase === "desk") body = screenDesk(clock.scene, local);
+      else if (phase === "trade") body = screenTrade(local);
+      else body = screenReport();
+      return { phase, html: `<div class="shell">${header(phase)}<div class="body">${body}</div></div>` };
+    }
+    function render() {
+      const prev = root.querySelector(".body");
+      const top = prev && lastPhase ? prev.scrollTop : 0;
+      const next = view();
+      const keep = lastPhase === next.phase;
+      root.innerHTML = next.html;
+      lastPhase = next.phase;
+      if (keep) {
+        const scroller = root.querySelector(".body");
+        if (scroller) scroller.scrollTop = top;
+      }
+    }
+    root.addEventListener("click", (event) => {
+      const node = event.target.closest("[data-act]");
+      if (!node) return;
+      const act = node.dataset.act;
+      if (act === "live") {
+        if (playing && !pin) { playing = false; pin = readClock(elapsed).phase; }
+        else { pin = null; playing = true; }
+      } else if (act === "open") { pin = "unlock"; playing = false; }
+      else if (act === "replay") { pin = null; elapsed = 0; playing = true; }
+      else { pin = act; playing = false; }
+      render();
+    });
+    setInterval(() => { if (playing) elapsed += 90; render(); }, 90);
+    render();
+  </script>
+</body>
+</html>
