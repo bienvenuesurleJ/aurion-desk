@@ -1,196 +1,609 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#04070d">
-  <title>AURION</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --ink:#04070d; --ink2:#071018; --panel:#0a1522; --line:#1a3348; --soft:#10202e;
-      --ivory:#e8f4ff; --muted:#7d97ad; --faint:#4e677c; --gold:#39e7ff; --jade:#3dffc0; --rose:#ff4d78;
-      --sans:"Space Grotesk",ui-sans-serif,system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
-    }
-    * { box-sizing:border-box; }
-    html,body { margin:0; height:100%; background:var(--ink); color:var(--ivory); font-family:var(--sans); }
-    body { min-height:100dvh; background-image:linear-gradient(rgba(57,231,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(57,231,255,.05) 1px,transparent 1px); background-size:48px 48px; }
-    button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
-    .app { display:flex; height:100dvh; }
-    nav.rail { display:none; width:5.5rem; flex-direction:column; align-items:center; gap:.25rem; border-right:1px solid var(--line); background:rgba(7,16,24,.92); padding:.75rem 0; }
-    .mark { color:var(--gold); font-weight:700; letter-spacing:.12em; font-size:.75rem; }
-    nav.rail button, nav.dock button { color:var(--muted); }
-    nav.rail button.on, nav.dock button.on { color:var(--gold); background:rgba(57,231,255,.12); }
-    nav.rail button { width:4.4rem; height:3.4rem; border-radius:.25rem; font-size:.7rem; }
-    .stage { min-width:0; flex:1; display:flex; flex-direction:column; }
-    header.top { display:flex; align-items:center; gap:.75rem; padding:.7rem 1rem; border-bottom:1px solid var(--line); background:rgba(7,16,24,.85); }
-    .sub { color:var(--faint); font-family:var(--mono); font-size:.72rem; }
-    .eq { margin-left:auto; text-align:right; }
-    .eq b { font-family:var(--mono); font-size:1.05rem; }
-    .ticker { display:flex; overflow:hidden; border-bottom:1px solid var(--line); }
-    .ticker button { height:2.4rem; padding:0 .75rem; border-right:1px solid var(--soft); font-size:.75rem; white-space:nowrap; }
-    main { flex:1; overflow:auto; padding:.85rem; padding-bottom:5.5rem; }
-    .grid { display:grid; gap:.75rem; }
-    .kpis { grid-template-columns:repeat(2,1fr); }
-    .card { border:1px solid var(--line); background:rgba(10,21,34,.9); border-radius:.4rem; padding:.85rem; }
-    .k { color:var(--faint); font-size:.72rem; }
-    .v { font-family:var(--mono); margin-top:.2rem; }
-    h2 { margin:0 0 .6rem; font-size:.9rem; }
-    .jade { color:var(--jade); } .rose { color:var(--rose); } .gold { color:var(--gold); } .muted { color:var(--muted); } .faint { color:var(--faint); }
-    .row { display:flex; align-items:center; gap:.6rem; width:100%; text-align:left; padding:.55rem 0; border-bottom:1px solid var(--soft); }
-    .row:last-child { border-bottom:0; }
-    .grow { flex:1; min-width:0; }
-    .right { text-align:right; }
-    .mono { font-family:var(--mono); }
-    svg.chart { width:100%; height:11rem; display:block; }
-    .dock { position:fixed; left:0; right:0; bottom:0; display:flex; border-top:1px solid var(--line); background:rgba(4,7,13,.94); }
-    .dock button { flex:1; height:4rem; font-size:.72rem; }
-    .live { display:inline-flex; align-items:center; gap:.35rem; color:var(--jade); font-size:.75rem; }
-    .dot { width:.4rem; height:.4rem; border-radius:99px; background:currentColor; }
-    .pills { display:flex; flex-wrap:wrap; gap:.4rem; }
-    .pill, .arm { border:1px solid var(--line); border-radius:.25rem; min-height:2.75rem; padding:0 .8rem; }
-    .pill.on { border-color:var(--gold); color:var(--gold); }
-    .arm { background:var(--gold); color:var(--ink); font-weight:600; }
-    .arm.off { background:transparent; color:var(--ivory); }
-    .note { color:var(--muted); font-size:.9rem; line-height:1.45; }
-    .log { font-size:.85rem; padding:.45rem 0; border-bottom:1px solid var(--soft); }
-    @media (min-width:900px) {
-      nav.rail { display:flex; }
-      .dock { display:none; }
-      main { padding-bottom:1rem; }
-      .kpis { grid-template-columns:repeat(4,1fr); }
-      .split { grid-template-columns:1.4fr .8fr; }
-    }
-  </style>
-</head>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NEXORA AI</title>
+<style>
+:root{--bg:#07070d;--g:#14141f;--g2:#1d1d2b;--v:#8b5cf6;--b:#38bdf8;--o:#fb923c;--t:#f1f1f7;--m:#8d8da6}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 85% -10%,#2a1a55,transparent 45%),var(--bg);color:var(--t);font:15px/1.45 system-ui,sans-serif;padding-left:190px}
+nav{position:fixed;left:0;top:0;bottom:0;width:190px;background:#0b0b14;border-right:1px solid #ffffff14;padding:14px 10px;display:flex;flex-direction:column;gap:4px;z-index:5}
+.lg{font-size:20px;padding:6px 10px 14px;letter-spacing:3px}.lg span{color:var(--v)}
+nav a{padding:10px;border-radius:10px;cursor:pointer;color:var(--m);display:flex;gap:10px;align-items:center}
+nav a.on{background:linear-gradient(90deg,#8b5cf633,#38bdf822);color:#fff}nav i{font-style:normal}
+main{padding:20px;max-width:1100px}
+h2{margin:0 0 14px}
+.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.c{background:var(--g);border:1px solid #ffffff12;border-radius:14px;padding:14px;margin-bottom:10px}
+.k{font-size:28px;font-weight:700;background:linear-gradient(90deg,var(--v),var(--b));-webkit-background-clip:text;background-clip:text;color:transparent}
+.s{color:var(--m);font-size:12px}
+.w{color:var(--o);font-size:12px}
+button,select,input,textarea{font:inherit;color:var(--t);background:var(--g2);border:1px solid #ffffff1f;border-radius:10px;padding:8px 12px}
+button{cursor:pointer}button:focus-visible,a:focus-visible{outline:2px solid var(--b)}
+button.p{background:linear-gradient(90deg,var(--v),#6366f1);border:0}button.d{border-color:#f8717180}
+textarea,input{width:100%;margin:4px 0}textarea{min-height:90px}input[type=file]{display:none}
+.ab{display:inline-flex;gap:6px;align-items:center;margin:3px;text-align:left}
+.dot{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block}
+.bd{font-size:11px;padding:2px 8px;border-radius:99px;background:#8b5cf633}
+.av{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--b));margin-right:8px;font-weight:700}
+.md{position:fixed;inset:0;background:#000b;z-index:9;display:flex;align-items:flex-end;justify-content:center}.md[hidden]{display:none}
+.mb{background:var(--g);width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px}
+#tt{position:fixed;top:12px;right:12px;background:var(--o);color:#000;padding:8px 14px;border-radius:10px;display:none;z-index:10}
+pre{white-space:pre-wrap;word-break:break-word;font:12px/1.4 ui-monospace,monospace;margin:4px 0;color:#c9c9dd}
+.row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+@media(max-width:760px){body{padding:0 0 70px}
+nav{top:auto;width:auto;right:0;height:62px;flex-direction:row;overflow-x:auto;padding:6px 6px max(6px,env(safe-area-inset-bottom));border-top:1px solid #ffffff14;border-right:0}
+.lg{display:none}nav a{flex-direction:column;gap:0;font-size:11px;padding:4px 10px;flex:none}
+main{padding:14px;padding-top:max(14px,env(safe-area-inset-top))}}
+.hqt,.hqt2{position:absolute;left:8px;right:8px;z-index:3;display:flex;gap:6px;flex-wrap:wrap;pointer-events:none}.hqt{top:8px}.hqt2{top:48px;align-items:center}.hqt>*,.hqt2>*{pointer-events:auto}
+.hqb{padding:6px 10px;border-radius:10px;background:#0b0b14cc;border:1px solid #ffffff26;font-size:13px;min-height:34px}.hqb[aria-pressed=true]{background:linear-gradient(90deg,#8b5cf6aa,#38bdf866)}
+.hqt2 select{width:auto;max-width:44%;margin:0;padding:6px 8px;font-size:13px;background:#0b0b14cc}.hqm{font-size:11px;color:#fff;background:#0b0b14cc;border-radius:99px;padding:3px 9px}
+.hqp{position:absolute;left:8px;bottom:8px;width:min(340px,calc(100% - 16px));max-height:58%;overflow:auto;background:#14141ff0;border:1px solid #ffffff1f;border-radius:14px;padding:12px;z-index:4}.hqph{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hqk{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:8px 0}.hqk div{background:var(--g2);border-radius:10px;padding:6px;text-align:center}.hqk b{display:block;font-size:18px}.hqk span{font-size:10px;color:var(--m)}
+.hqf{position:absolute;right:8px;bottom:8px;font:11px ui-monospace,monospace;background:#000b;padding:4px 8px;border-radius:8px;z-index:3}
+@media(max-width:760px){.hqb span{display:none}.hqt2 select{max-width:42%}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head>
 <body>
-  <div id="app"></div>
-  <script>
-    const START = 100000, FEE = 0.0004, MAX = 3;
-    const PAIRS = [
-      { id:"BTC", name:"Bitcoin", start:97420, vol:0.00155, digits:1, seed:11 },
-      { id:"ETH", name:"Ethereum", start:3618, vol:0.00205, digits:2, seed:23 },
-      { id:"SOL", name:"Solana", start:186.4, vol:0.0031, digits:2, seed:37 },
-      { id:"BNB", name:"BNB", start:614.2, vol:0.00175, digits:2, seed:41 },
-      { id:"AVAX", name:"Avalanche", start:38.64, vol:0.0033, digits:2, seed:53 },
-      { id:"XAU", name:"Or", start:2684, vol:0.00072, digits:2, seed:67 }
-    ];
-    const STRATS = {
-      pulse: ["Pulse", "Momentum filtré. EMA 9 contre EMA 21, RSI hors extrême."],
-      revert: ["Reversion", "Achète la faiblesse sous RSI 34, vend la force au-dessus de 66."],
-      breakout: ["Rupture", "Entre à la clôture hors du range des 20 dernières bougies."],
-      anchor: ["Ancre", "Vend l’extension au-dessus de l’EMA 21, achète le décrochage."]
-    };
-    const VIEWS = [["desk","Desk"],["marche","Marché"],["cortex","Cortex"],["robot","Robot"],["livre","Livre"]];
-    function mulberry32(seed){ let a=seed>>>0; return ()=>{ a|=0; a=(a+0x6d2b79f5)|0; let t=Math.imul(a^(a>>>15),1|a); t=(t+Math.imul(t^(t>>>7),61|t))^t; return ((t^(t>>>14))>>>0)/4294967296; }; }
-    function clamp(n,lo,hi){ return Math.max(lo, Math.min(hi, n)); }
-    function ema(values, period){ const k=2/(period+1); const out=[]; let prev=values[0]||0; for (let i=0;i<values.length;i++){ prev=i===0?values[0]:values[i]*k+prev*(1-k); out.push(prev); } return out; }
-    function rsi(values, period=14){ const out=Array(values.length).fill(50); if (values.length<=period) return out; let gain=0, loss=0; for (let i=1;i<=period;i++){ const d=values[i]-values[i-1]; if (d>=0) gain+=d; else loss-=d; } gain/=period; loss/=period; out[period]=loss===0?100:100-100/(1+gain/loss); for (let i=period+1;i<values.length;i++){ const d=values[i]-values[i-1]; const g=d>0?d:0, l=d<0?-d:0; gain=(gain*(period-1)+g)/period; loss=(loss*(period-1)+l)/period; out[i]=loss===0?100:100-100/(1+gain/loss); } return out; }
-    function atr(candles, period=14){ const tr=candles.map((c,i)=>i===0?c.h-c.l:Math.max(c.h-c.l, Math.abs(c.h-candles[i-1].c), Math.abs(c.l-candles[i-1].c))); const out=Array(tr.length).fill(tr[0]||0); if (tr.length<=period) return out; let acc=0; for (let i=0;i<period;i++) acc+=tr[i]; out[period-1]=acc/period; for (let i=period;i<tr.length;i++) out[i]=(out[i-1]*(period-1)+tr[i])/period; return out; }
-    function signalAt(candles, strategy){ if (candles.length<30) return "flat"; const closes=candles.map(c=>c.c); const i=closes.length-1; const e9=ema(closes,9), e21=ema(closes,21); const r=rsi(closes)[i]; const a=atr(candles)[i]; const price=closes[i]; if (strategy==="pulse"){ const gap=(e9[i]-e21[i])/Math.max(a, price*0.0004); if (gap>0.22 && r>48 && r<75) return "long"; if (gap<-0.22 && r<52 && r>25) return "short"; return "flat"; } if (strategy==="revert"){ if (r<34) return "long"; if (r>66) return "short"; return "flat"; } if (strategy==="breakout"){ const window=candles.slice(Math.max(0,i-20), i); if (window.length<10) return "flat"; const hi=Math.max(...window.map(c=>c.h)), lo=Math.min(...window.map(c=>c.l)); if (price>hi) return "long"; if (price<lo) return "short"; return "flat"; } const band=Math.max(a*1.25, price*0.0012); const dist=price-e21[i]; if (dist<-band) return "long"; if (dist>band) return "short"; return "flat"; }
-    function stepPrice(price, regime, vol, rnd, tempo = 1) {
-      const next = clamp(regime * (1 - 0.01 * tempo) + (rnd() - 0.478) * 0.05 * tempo, -1, 1);
-      const noise = vol * tempo * (0.32 + (1 - Math.abs(next)) * 0.38);
-      return { price: Math.max(1e-6, price * (1 + next * vol * tempo * 1.05 + (rnd() - 0.5) * noise * 2)), regime: next };
-    }
-    function build(pair, n){ const rnd=mulberry32(pair.seed); let price=pair.start, regime=((pair.seed%5)-2)*0.4; const candles=[]; for (let i=0;i<n;i++){ const o=price; const stepped=stepPrice(price, regime, pair.vol, rnd); price=stepped.price; regime=stepped.regime; const span=Math.abs(price-o)*(0.18+rnd()*0.45); candles.push({ o, h:Math.max(o,price)+span*rnd(), l:Math.min(o,price)-span*(1-rnd())*0.85, c:price, v:(40+rnd()*160)*(1+Math.abs(regime)) }); } return { candles, regime }; }
-    function money(n){ const sign=n<0?"−":""; return sign+Math.abs(n).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" USDT"; }
-    function px(n,d){ return n.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d}); }
-    function pct(n){ return (n>=0?"+":"−")+Math.abs(n*100).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" %"; }
-    const state = { books:{}, regime:{}, cash:START, positions:[], trades:[], logs:[], curve:[], tick:0, running:true, halted:false, strategy:"pulse", risk:0.012, enabled:{}, focus:"BTC", view:"desk" };
-    PAIRS.forEach(p => state.enabled[p.id]=true);
-    function equity(){ let u=state.cash; for (const p of state.positions){ const pxn=state.books[p.pair].forming.c; u += p.side==="long"?(pxn-p.entry)*p.qty:(p.entry-pxn)*p.qty; } return u; }
-    function closePos(pos, exit, reason){ const raw=pos.side==="long"?(exit-pos.entry)*pos.qty:(pos.entry-exit)*pos.qty; const fees=(pos.entry+exit)*pos.qty*FEE; const pnl=raw-fees; state.cash += raw - exit*pos.qty*FEE; state.trades.unshift({ ...pos, exit, pnl, reason }); state.trades=state.trades.slice(0,40); const verb=reason==="tp"?"cible":reason==="sl"?"stop":reason==="temps"?"temps":"signal"; state.logs.unshift(pos.pair+" · sortie "+verb+" "+(pnl>=0?"+":"−")+Math.abs(pnl).toLocaleString("fr-FR",{maximumFractionDigits:2})+" USDT"); }
-    function openPos(pair, candles, side){ const bar=candles.at(-1); const price=bar.c; const a=atr(candles).at(-1)||price*0.002; const slDist=Math.max(a*1.6, price*0.002); const eq=Math.max(1000, state.cash); let qty=(eq*state.risk)/slDist; qty=Math.min(qty,(eq*0.22)/price); if (!Number.isFinite(qty) || qty*price<20) return; const used=state.positions.reduce((a,p)=>a+p.qty*p.entry,0); if (used+qty*price>eq*0.75) return; state.cash -= price*qty*FEE; state.positions.push({ id:pair.id+"-"+state.tick, pair:pair.id, side, qty, entry:price, sl:side==="long"?price-slDist:price+slDist, tp:side==="long"?price+slDist*2.15:price-slDist*2.15, bars:0 }); state.logs.unshift(pair.id+" · "+side+" "+qty.toLocaleString("fr-FR",{maximumFractionDigits:3})+" @ "+px(price, pair.digits)); }
-    function onBar(){ const kept=[]; for (const pos of state.positions){ const candles=state.books[pos.pair].candles; const bar=candles.at(-1); const held={...pos, bars:pos.bars+1}; const hitSl=held.side==="long"?bar.l<=held.sl:bar.h>=held.sl; const hitTp=held.side==="long"?bar.h>=held.tp:bar.l<=held.tp; if (hitSl||hitTp){ closePos(held, hitSl?held.sl:held.tp, hitSl?"sl":"tp"); continue; } const bias=signalAt(candles, state.strategy); if ((held.side==="long"&&bias==="short")||(held.side==="short"&&bias==="long")){ closePos(held, bar.c, "signal"); continue; } const raw=held.side==="long"?(bar.c-held.entry)*held.qty:(held.entry-bar.c)*held.qty; if (held.bars>=24 && raw<0){ closePos(held, bar.c, "temps"); continue; } kept.push(held); } state.positions=kept; if (!state.running || state.halted) return; for (const pair of PAIRS){ if (!state.enabled[pair.id]) continue; if (state.positions.some(p=>p.pair===pair.id)) continue; if (state.positions.length>=MAX) break; const candles=state.books[pair.id].candles; const bias=signalAt(candles, state.strategy); if (bias!=="flat") openPos(pair, candles, bias); } }
-    function boot() {
-      const full = {};
-      for (const pair of PAIRS) {
-        const built = build(pair, 168);
-        full[pair.id] = built.candles;
-        state.regime[pair.id] = built.regime;
-        const last = built.candles.at(-1);
-        state.books[pair.id] = { candles: built.candles, forming: { o: last.c, h: last.c, l: last.c, c: last.c, v: 0 } };
-      }
-      for (let i = 36; i < 168; i++) {
-        for (const pair of PAIRS) {
-          const slice = full[pair.id].slice(0, i + 1);
-          const last = slice.at(-1);
-          state.books[pair.id].candles = slice;
-          state.books[pair.id].forming = { o: last.c, h: last.c, l: last.c, c: last.c, v: 0 };
-        }
-        onBar();
-        state.curve.push(equity());
-      }
-      for (const pair of PAIRS) {
-        const candles = full[pair.id];
-        const last = candles.at(-1);
-        state.books[pair.id] = { candles, forming: { o: last.c, h: last.c, l: last.c, c: last.c, v: 0 } };
-      }
-      if (!state.logs.length) state.logs.push("Cortex en ligne · univers actif · Pulse armé");
-      state.logs = state.logs.slice(0, 24);
-    }
-    function commit(){ for (const pair of PAIRS){ const b=state.books[pair.id]; const done={...b.forming}; b.candles=[...b.candles, done].slice(-240); b.forming={ o:done.c, h:done.c, l:done.c, c:done.c, v:0 }; } onBar(); const eq=equity(); state.curve.push(eq); state.curve=state.curve.slice(-220); if (!state.halted && (eq-START)/START <= -0.015){ state.halted=true; state.running=false; const still=state.positions.slice(); state.positions=[]; for (const pos of still) closePos(pos, state.books[pos.pair].forming.c, "signal"); state.logs.unshift("Coupe-circuit · perte du jour −1,50 % · robot désarmé"); } }
-    function tick() {
-      state.tick++;
-      for (const pair of PAIRS) {
-        const rnd = mulberry32((pair.seed * 997 + state.tick * 13) >>> 0);
-        const f = state.books[pair.id].forming;
-        const stepped = stepPrice(f.c, state.regime[pair.id], pair.vol, rnd, 0.18);
-        state.regime[pair.id] = stepped.regime;
-        f.c = stepped.price;
-        f.h = Math.max(f.h, f.c);
-        f.l = Math.min(f.l, f.c);
-        f.v += 6 + rnd() * 28;
-      }
-      if (state.tick % 8 === 0) commit();
-      if (document.activeElement && document.activeElement.id === "risk") return;
-      render();
-    }
-    function shot(id){ const book=state.books[id]; const candles=[...book.candles, book.forming]; const closes=candles.map(c=>c.c); const i=closes.length-1; const e9=ema(closes,9), e21=ema(closes,21); const r=rsi(closes)[i]; const a=atr(candles)[i]; const bias=signalAt(candles, state.strategy); const trend=a>0?clamp((e9[i]-e21[i])/a,-2,2):0; const confidence=Math.round(clamp(36+Math.abs(trend)*16+Math.abs((r-50)/18)*10+(bias==="flat"?8:28),8,93)); return { price:closes[i], rsi:r, atr:a, ema9:e9[i], ema21:e21[i], bias, confidence, change:(closes[i]-(closes[Math.max(0,i-60)]||closes[i]))/(closes[Math.max(0,i-60)]||closes[i]) }; }
-    function area(values){ const w=640,h=180,min=Math.min(...values),max=Math.max(...values); const pts=values.map((v,i)=>[(i/(values.length-1))*w, 12+(1-(v-min)/(max-min||1))*(h-28)]); const d=pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+","+p[1].toFixed(1)).join(" "); const up=values.at(-1)>=values[0]; const color=up?"#3dffc0":"#ff4d78"; return `<svg class="chart" viewBox="0 0 ${w} ${h}"><path d="${d} L${w},${h} L0,${h} Z" fill="${color}" opacity=".14"/><path d="${d}" fill="none" stroke="${color}" stroke-width="2"/></svg>`; }
-    function candlesSvg(id){ const rows=[...state.books[id].candles, state.books[id].forming].slice(-48); const w=640,h=220,volH=36; let lo=Infinity,hi=-Infinity,maxV=1; rows.forEach(c=>{ lo=Math.min(lo,c.l); hi=Math.max(hi,c.h); maxV=Math.max(maxV,c.v); }); const span=hi-lo||1; lo-=span*.08; hi+=span*.1; const plot=h-volH-8, slot=w/rows.length; const y=v=>((hi-v)/(hi-lo))*plot; return `<svg class="chart" viewBox="0 0 ${w} ${h}" style="height:14rem">${rows.map((c,i)=>{ const up=c.c>=c.o; const x=i*slot+slot*.5; const body=Math.max(1.4,slot*.55); const top=y(Math.max(c.o,c.c)), bot=y(Math.min(c.o,c.c)); const color=up?"#3dffc0":"#ff4d78"; return `<line x1="${x}" x2="${x}" y1="${y(c.h)}" y2="${y(c.l)}" stroke="${color}"/><rect x="${x-body/2}" y="${top}" width="${body}" height="${Math.max(1,bot-top)}" fill="${color}"/>`; }).join("")}</svg>`; }
-    function biasWord(b){ return b==="long"?"Long":b==="short"?"Short":"Attente"; }
-    function nav(kind){ return VIEWS.map(([id,label])=>`<button class="${state.view===id?"on":""}" data-view="${id}">${label}</button>`).join(""); }
-    function screen(){
-      const eq=equity(); const pnl=eq-START; const s=shot(state.focus); const pair=PAIRS.find(p=>p.id===state.focus);
-      const wins=state.trades.filter(t=>t.pnl>0); const grossW=wins.reduce((a,t)=>a+t.pnl,0); const grossL=Math.abs(state.trades.filter(t=>t.pnl<=0).reduce((a,t)=>a+t.pnl,0));
-      const pf=grossL===0?(grossW>0?9.99:0):grossW/grossL; const wr=state.trades.length?wins.length/state.trades.length:0;
-      let body="";
-      if (state.view==="desk"){
-        body=`<div class="grid kpis">${kpi("Résultat", money(pnl), pnl>=0?"jade":"rose")}${kpi("Réussite", pct(wr).replace("+",""))}${kpi("Profit factor", pf.toLocaleString("fr-FR",{maximumFractionDigits:2}))}${kpi("Positions", String(state.positions.length))}</div>
-        <div class="grid split"><section class="card"><h2>Capital</h2>${area(state.curve.slice(-80))}</section><section class="card"><h2>Cortex</h2><div class="k">Biais ${pair.id}</div><div style="font-size:1.6rem;font-weight:600">${biasWord(s.bias)}</div><div class="gold mono" style="font-size:1.8rem">${s.confidence}</div><p class="note">${pair.name} · RSI ${s.rsi.toFixed(0)} · ${STRATS[state.strategy][0]}. ${state.running?"Le robot ouvre, tient et coupe seul.":"En veille. Les stops restent actifs."}</p><p class="faint" style="font-size:.8rem">${state.logs[0]||""}</p></section></div>
-        <section class="card"><h2>Expositions</h2>${state.positions.length?state.positions.map(p=>{ const mkt=state.books[p.pair].forming.c; const u=(p.side==="long"?mkt-p.entry:p.entry-mkt)*p.qty; return `<div class="row"><div class="grow"><b>${p.pair}</b> <span class="${p.side==="long"?"jade":"rose"}">${p.side}</span><div class="mono faint" style="font-size:.75rem">${p.qty.toLocaleString("fr-FR",{maximumFractionDigits:3})} @ ${px(p.entry, PAIRS.find(x=>x.id===p.pair).digits)}</div></div><div class="right ${u>=0?"jade":"rose"} mono">${money(u)}</div></div>`; }).join(""):`<p class="note">Aucune exposition. Le cortex scanne le prochain régime.</p>`}</section>`;
-      } else if (state.view==="marche"){
-        body=`<div class="pills" style="margin-bottom:.7rem">${PAIRS.map(p=>`<button class="pill ${p.id===state.focus?"on":""}" data-focus="${p.id}">${p.id}</button>`).join("")}</div><section class="card"><h2>${pair.id} · ${px(s.price, pair.digits)} <span class="${s.change>=0?"jade":"rose"}">${pct(s.change)}</span></h2>${candlesSvg(pair.id)}<p class="note">${biasWord(s.bias)} · RSI ${s.rsi.toFixed(1)} · ATR ${px(s.atr, pair.digits)} · EMA 9 ${px(s.ema9, pair.digits)} / 21 ${px(s.ema21, pair.digits)}</p></section>`;
-      } else if (state.view==="cortex"){
-        body=`<section class="card"><h2>Lecture ${pair.name}</h2><div style="font-size:2rem;font-weight:600">${biasWord(s.bias)}</div><p class="note">Confiance ${s.confidence}. RSI ${s.rsi.toFixed(0)}, ${s.ema9>=s.ema21?"au-dessus":"sous"} l’EMA 21. ${STRATS[state.strategy][1]}</p><p class="note">Le moteur quantitatif décide à chaque bougie. Ce fichier n’appelle pas de modèle externe : l’exécution reste locale et automatique.</p></section><section class="card"><h2>Journal</h2>${state.logs.slice(0,12).map(l=>`<div class="log">${l}</div>`).join("")}</section>`;
-      } else if (state.view==="robot"){
-        body=`<section class="card"><h2>Doctrine</h2><div class="grid" style="grid-template-columns:1fr 1fr">${Object.entries(STRATS).map(([id,info])=>`<button class="pill ${state.strategy===id?"on":""}" data-strat="${id}" style="text-align:left;padding:.7rem"><b>${info[0]}</b><div class="faint" style="font-size:.75rem;margin-top:.3rem">${info[1]}</div></button>`).join("")}</div></section>
-        <section class="card"><h2>Risque ${(state.risk*100).toLocaleString("fr-FR",{maximumFractionDigits:1})} %</h2><input id="risk" type="range" min="0.4" max="2" step="0.1" value="${(state.risk*100).toFixed(1)}" style="width:100%"><div class="pills" style="margin-top:.7rem">${PAIRS.map(p=>`<button class="pill ${state.enabled[p.id]?"on":""}" data-pair="${p.id}">${p.id}</button>`).join("")}</div><div class="row" style="margin-top:.8rem"><div class="grow"><b>${state.halted?"Coupe-circuit":state.running?"Robot armé":"Veille"}</b><div class="faint" style="font-size:.75rem">Stop 1,6 ATR · cible 2,15 R · 3 expositions</div></div><button class="arm ${state.running?"":"off"}" data-arm="1">${state.halted?"Réarmer":state.running?"Veille":"Armer"}</button></div></section>`;
-      } else {
-        body=`<div class="grid kpis">${kpi("Trades", String(state.trades.length))}${kpi("Profit factor", pf.toLocaleString("fr-FR",{maximumFractionDigits:2}))}${kpi("Réussite", pct(wr).replace("+",""))}${kpi("Session", pct(pnl/START), pnl>=0?"jade":"rose")}</div><section class="card"><h2>Livre</h2>${state.trades.slice(0,16).map(t=>`<div class="row"><div class="grow"><b>${t.pair}</b> <span class="faint">${t.reason}</span></div><div class="mono ${t.pnl>=0?"jade":"rose"}">${money(t.pnl)}</div></div>`).join("")||`<p class="note">Le livre se remplit au fil des sorties.</p>`}</section>`;
-      }
-      const tickers=PAIRS.map(p=>{ const c=state.books[p.id].forming.c; const prev=state.books[p.id].candles.at(-30)?.c||c; const ch=(c-prev)/prev; return `<button data-focus="${p.id}">${p.id} <span class="mono">${px(c,p.digits)}</span> <span class="${ch>=0?"jade":"rose"}">${pct(ch)}</span></button>`; }).join("");
-      return `<div class="app"><nav class="rail"><div class="mark">AURION</div>${nav("rail")}</nav><div class="stage"><header class="top"><div><b>AURION</b> <span class="live"><span class="dot"></span>${state.halted?"Circuit":state.running?"En ligne":"Veille"}</span><div class="sub">${pair.id}/USDT · robot autonome · compte papier</div></div><div class="eq"><b class="${pnl>=0?"jade":"rose"}">${money(eq)}</b><div class="sub ${pnl>=0?"jade":"rose"}">${money(pnl)} · ${pct(pnl/START)}</div></div></header><div class="ticker">${tickers}</div><main>${body}</main></div><nav class="dock">${nav("dock")}</nav></div>`;
-    }
-    function kpi(k,v,tone){ return `<section class="card"><div class="k">${k}</div><div class="v ${tone||""}">${v}</div></section>`; }
-    const root=document.getElementById("app");
-    let scroll=0;
-    function render(){ const main=root.querySelector("main"); if (main) scroll=main.scrollTop; root.innerHTML=screen(); const next=root.querySelector("main"); if (next) next.scrollTop=scroll; const risk=document.getElementById("risk"); if (risk) risk.addEventListener("input", ()=>{ state.risk=Number(risk.value)/100; }); }
-    root.addEventListener("click", (e)=>{
-      const n=e.target.closest("[data-view],[data-focus],[data-strat],[data-pair],[data-arm]");
-      if (!n) return;
-      if (n.dataset.view) state.view=n.dataset.view;
-      if (n.dataset.focus){ state.focus=n.dataset.focus; if (state.view==="desk") state.view="marche"; }
-      if (n.dataset.strat) state.strategy=n.dataset.strat;
-      if (n.dataset.pair){ const id=n.dataset.pair; const on=Object.values(state.enabled).filter(Boolean).length; if (state.enabled[id] && on===1) return; state.enabled[id]=!state.enabled[id]; }
-      if (n.dataset.arm){ if (state.halted && !state.running){ state.halted=false; state.running=true; } else state.running=!state.running; }
-      render();
-    });
-    boot(); render(); setInterval(tick, 520);
-  </script>
-</body>
-</html>
+<nav id="nav"></nav><main id="v"></main><div id="md" class="md" hidden></div><div id="tt"></div><script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+try{const T=await import('three'),L=await import('three/addons/loaders/GLTFLoader.js');window.THREE=T;window.GLTFLoaderCls=L.GLTFLoader}catch(e){window.THREE_ERR=(e&&e.message)||'chargement impossible'}
+window.dispatchEvent(new Event('hq-three'));
+</script>
+<script>
+/* ===== NEXORA AI v0.2 : fichier unique, stockage local, moteur de démonstration, siège social 3D ===== */
+const $=s=>document.querySelector(s),E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,9);
+
+/* --- Données : 17 départements x 2 agents = 34 agents --- */
+const DEP=['Direction','Marketing','Communication','Commercial','Prospection','Finance','Administration','Ressources humaines','Création','Production','Recherche','Analyse','Service client','Technologie','Développement','Sécurité','Stratégie'];
+const RAW=`Orion|Chef de cabinet|coordination,priorisation
+Lyra|Contrôleuse qualité|vérification,synthèse
+Maya|Stratège marketing|positionnement,campagnes
+Noé|Growth marketer|acquisition,tests A/B
+Iris|Rédactrice|rédaction,storytelling
+Hugo|Community manager|réseaux sociaux,calendrier éditorial
+Léa|Responsable ventes|offres,négociation
+Tom|Account manager|fidélisation,vente additionnelle
+Zoé|Prospectrice|ciblage,séquences de contact
+Eli|Analyste leads|qualification,scoring
+Victor|Analyste financier|budget,marges
+Nina|Trésorière|trésorerie,prévisions
+Sacha|Gestionnaire administratif|procédures,documents
+Inès|Assistante exécutive|planning,comptes rendus
+Camille|Responsable RH|recrutement,organisation
+Malo|Formateur|formation,intégration
+Jade|Directrice artistique|identité visuelle,maquettes
+Axel|Scénariste|scripts,vidéo
+Roxane|Cheffe de projet|planification,livraison
+Basile|Optimiseur de processus|workflows,qualité
+Alma|Veilleuse|veille,benchmark
+Théo|Chercheur|synthèse de sources,études
+Sofia|Data analyst|indicateurs,tableaux
+Karim|Analyste risques|risques,scénarios
+Lola|Conseillère support|réponses,FAQ
+Dan|Médiateur|litiges,satisfaction
+Nova|Architecte logiciel|architecture,outils
+Rémi|Intégrateur|automatisation,connexions
+Enzo|Développeur front|HTML/JS,ergonomie
+Mila|Développeuse logique|algorithmes,tests
+Gabin|Responsable sécurité|audit,accès
+Salomé|Responsable conformité|RGPD,politiques internes
+Adèle|Stratège|plans,vision
+Louis|Analyste concurrence|concurrents,marché`;
+const AG=RAW.split('\n').map((l,i)=>{const[n,j,s]=l.split('|');return{id:'A'+String(i+1).padStart(2,'0'),n,j,d:DEP[i>>1],s:s.split(',')}});
+const ag=id=>AG.find(a=>a.id==id)||{id,n:'Agent supprimé',j:'—',d:'—',s:['—','—']},nm=id=>id=='DIR'?'Directeur':ag(id).n;
+const COL={'Disponible':'#34d399','En mission':'#38bdf8','En réflexion':'#8b5cf6','En collaboration':'#fb923c','En attente':'#facc15','Terminé':'#a3e635','En erreur':'#f87171'};
+/* Routage du directeur : mots-clés -> départements */
+const R=[[/market|campagne|pub|promo|annonce/i,['Marketing','Communication','Création']],[/vent|commerc|offre|prospect|client/i,['Commercial','Prospection','Service client']],[/financ|budget|tréso|prix|marge|coût/i,['Finance','Analyse']],[/sécur|rgpd|risque|audit/i,['Sécurité','Analyse']],[/site|app|code|dév|techno|outil/i,['Technologie','Développement']],[/équipe|recrut|rh\b|planning|semaine|organis/i,['Administration','Ressources humaines','Production']],[/recherch|veille|concurr|march|étude/i,['Recherche','Stratégie']],[/strat|améliorat|entreprise|projet/i,['Stratégie','Analyse']]];
+
+/* --- Stockage local versionné --- */
+function load(){try{const x=JSON.parse(localStorage.getItem('nexora_v1'));if(x&&x.v===1)return x}catch(e){}return{v:1,ws:'Mon espace',ms:[],msg:[],docs:[],chat:{}}}
+let S=load();S.chat=S.chat||{};S.au=S.au||[];S.off=S.off||[];S.ca=S.ca||[];S.pf=S.pf||{};S.hq=S.hq||{};syncCA();S.st={};
+S.ms.forEach(m=>{if(m.s=='En cours'){m.s='En attente';m.steps.forEach(x=>{if(x.st=='run')x.st=''})}});
+function save(){try{localStorage.setItem('nexora_v1',JSON.stringify(S))}catch(e){toast('Sauvegarde impossible : stockage plein ou bloqué')}}
+const off=a=>S.off.includes(a.id),st=a=>off(a)?'En attente':(S.st[a.id]||'Disponible');
+function toast(t){const e=$('#tt');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2400)}
+function dl(n,t,ty){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:ty}));a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)}
+
+/* --- Moteur de démonstration (aucun modèle IA) --- */
+const T={};
+function plan(q){let d=['Direction'];R.forEach(r=>{if(r[0].test(q))r[1].forEach(x=>d.includes(x)||d.push(x))});if(d.length<2)d.push('Stratégie','Analyse');
+ const ids=[...new Set(d.map(x=>AG.find(a=>a.d==x&&!off(a)&&a.perm!='Lecture seule')).filter(Boolean).slice(0,5).map(a=>a.id))];ids.push('A02');return ids} /* chaque agent une seule fois : pas de boucle */
+function work(a,q){return `Contribution de ${a.n} (${a.j}, ${a.d})\nDemande : ${q}\nExpertise mobilisée : ${a.s.join(', ')}\n${a.ins?'Instructions de l\'agent : '+a.ins+'\n':''}1. Cadrer l'objectif et les contraintes (${a.s[0]})\n2. Trois actions à étudier dans mon domaine (${a.s[1]})\n3. Points à vérifier par vous avant toute décision\n[Trame du moteur local de démonstration : pas d'analyse IA réelle]`}
+function mk(title,req,prio,due,ids){const m={id:uid(),title,req,prio,due,s:'En cours',steps:ids.map(a=>({a,st:''})),ts:Date.now()};
+ S.ms.unshift(m);S.msg.unshift({f:'DIR',t:ids[0],m:m.id,i:'Démarrer la mission : '+title,r:'Instructions transmises',s:'Envoyé',ts:Date.now()});save();step(m)}
+function step(m){const i=m.steps.findIndex(x=>x.st!='ok');if(i<0)return fin(m);
+ const x=m.steps[i],a=ag(x.a);m.s='En cours';x.st='run';S.st[a.id]='En réflexion';save();draw();
+ T[m.id]=setTimeout(()=>{x.t=work(a,m.req);x.st='ok';S.st[a.id]='Terminé';const nx=m.steps[i+1];if(nx)HO[a.id]=nx.a;else delete HO[a.id];
+  S.msg.unshift({f:a.id,t:nx?nx.a:'DIR',m:m.id,i:nx?'Transmettre ma contribution à '+nm(nx.a):'Remettre la validation finale',r:x.t.split('\n').slice(0,2).join(' · '),s:'Livré',ts:Date.now()});
+  S.msg.length=Math.min(S.msg.length,200);save();draw();
+  setTimeout(()=>{if(S.st[a.id]=='Terminé'){delete S.st[a.id];draw()}},4500);step(m)},1100)}
+function fin(m){m.s='En validation';const id=uid();m.doc=id;
+ S.docs.unshift({id,t:'Synthèse : '+m.title,b:`SYNTHÈSE : ${m.title}\nDemande : ${m.req}\n\n`+m.steps.map(x=>x.t).join('\n\n———\n\n'),src:'Source : moteur local de démonstration (aucun modèle IA connecté)',ts:Date.now()});
+ save();draw();toast('Mission en validation')}
+function itr(id){const m=S.ms.find(x=>x.id==id);clearTimeout(T[id]);m.s='En attente';m.steps.forEach(x=>{if(x.st=='run'){x.st='';S.st[x.a]='En attente'}});save();draw()}
+function rl(id){const m=S.ms.find(x=>x.id==id);m.steps.forEach(x=>{if(x.st=='run')x.st=''});step(m)}
+function vl(id){S.ms.find(x=>x.id==id).s='Terminée';save();draw();toast('Mission validée')}
+function dm(id){if(!confirm('Supprimer cette mission ?'))return;clearTimeout(T[id]);S.ms=S.ms.filter(x=>x.id!=id);save();draw(1)}
+function launch(){const q=$('#q').value.trim();if(!q)return toast('Décrivez d’abord la demande');mk(q.slice(0,60),q,$('#pr').value,$('#du').value,plan(q));go('miss')}
+
+/* --- Vues --- */
+const msgH=x=>`<div class=s>${new Date(x.ts).toLocaleTimeString('fr-FR')} · ${nm(x.f)} → ${nm(x.t)} · ${E(x.s)}</div>`;
+const ab=a=>`<button class=ab onclick="op('${a.id}')"><span class=dot style="background:${COL[st(a)]}"></span>${a.n}</button>`;
+const mt=id=>(S.ms.find(m=>m.id==id)||{title:'(supprimée)'}).title;
+const VW={
+dash(){const c=s=>S.ms.filter(m=>m.s==s).length,bz=Object.values(S.st).filter(x=>x!='Disponible').length,ac=Object.values(S.st).filter(x=>['En mission','En réflexion','En collaboration'].includes(x)).length;
+ return `<h2>${E(S.ws)}</h2><div class=gr>${[['Agents',AG.length],['Disponibles',AG.length-bz],['Agents actifs',ac],['Missions en cours',c('En cours')],['En validation',c('En validation')],['Terminées',c('Terminée')],['En attente',c('En attente')],['Livrables',S.docs.length]].map(x=>`<div class=c><div class=k>${x[1]}</div><div class=s>${x[0]}</div></div>`).join('')}</div>
+ <div class=c><b>Consommation IA</b><div class=s>0 jeton : aucun modèle IA connecté. Les résultats viennent du moteur local de démonstration.</div></div>
+ <div class=c><b>Derniers échanges</b>${S.msg.slice(0,5).map(msgH).join('')||'<div class=s>Aucun échange. Confiez une mission au directeur.</div>'}</div>`},
+bureau(){return `<h2>Bureau virtuel</h2><div class=s style="margin-bottom:10px">Siège social 3D : glissez pour tourner, pincez ou molette pour zoomer, deux doigts (ou ✋) pour déplacer. Touchez un agent pour ouvrir sa fiche, un département pour ses statistiques. Toit retiré, murs en coupe. Les déplacements suivent le statut réel des agents ; les liens lumineux relient les agents d’une même mission. La vue simplifiée est juste en dessous.</div><div id=c3 style="height:min(72vh,560px);margin:10px 0;border-radius:14px;border:1px solid #ffffff14;overflow:hidden;touch-action:none;background:#0b0b14"></div><div id=b2>${B2()}</div>`},
+b2(){return `<div class=gr style="grid-template-columns:repeat(auto-fill,minmax(220px,1fr))">${DEP.map(d=>`<div class=c><b>${d}</b><br>${AG.filter(a=>a.d==d).map(ab).join('')}</div>`).join('')}</div>
+ <div class=s>${Object.keys(COL).map(k=>`<span class=dot style="background:${COL[k]}"></span> ${k}`).join(' &nbsp; ')}</div>`},
+dir(){return `<h2>Directeur IA</h2><div class=c><div class=w>Moteur local de démonstration : aucun modèle IA connecté. Le directeur choisit les agents par mots-clés et assemble des trames de travail, sans analyse réelle.</div>
+ <textarea id=q placeholder="Ex. : Prépare une campagne publicitaire pour ma boutique"></textarea>
+ <div class=row><select id=pr><option>Normale<option>Haute<option>Basse</select><input id=du type=date style="width:auto"><button class=p onclick="launch()">Confier au directeur</button></div></div>`},
+team(){return `<h2>Équipe : ${AG.length} agents</h2><div class=gr style="grid-template-columns:repeat(auto-fill,minmax(210px,1fr))">${AG.map(a=>`<div class=c style="cursor:pointer" onclick="op('${a.id}')"><span class=av>${a.n[0]}</span><b>${a.n}</b> <span class=dot style="background:${COL[st(a)]}"></span><div class=s>${a.j} · ${a.d}</div><div class=s>${a.s.join(', ')}</div></div>`).join('')}</div>`},
+miss(){return `<h2>Missions</h2>`+(S.ms.map(m=>`<div class=c><b>${E(m.title)}</b> <span class=bd>${m.s}</span> <span class=bd>${m.prio}</span>${m.due?` <span class=s>échéance ${E(m.due)}</span>`:''}<div class=s>${E(m.req)}</div>${m.steps.map(x=>`<div class=s>${x.st=='ok'?'✅':x.st=='run'?'⏳':'▫️'} ${nm(x.a)} (${ag(x.a).j})</div>`).join('')}
+ <div class=row>${m.s=='En cours'?`<button onclick="itr('${m.id}')">Interrompre</button>`:''}${m.s=='En attente'?`<button class=p onclick="rl('${m.id}')">Relancer</button>`:''}${m.s=='En validation'?`<button class=p onclick="vl('${m.id}')">Valider</button>`:''}${m.doc?`<button onclick="S.cur='${m.doc}';go('docs')">Voir le livrable</button>`:''}<button onclick="HQ.visitMission('${m.id}')">Voir au bureau</button><button class=d onclick="dm('${m.id}')">Supprimer</button></div></div>`).join('')||'<div class=s>Aucune mission. Confiez-en une au directeur ou attribuez une tâche depuis la fiche d’un agent.</div>')},
+comm(){return `<h2>Échanges inter-agents</h2>`+(S.msg.map(x=>`<div class=c><b>${nm(x.f)} → ${nm(x.t)}</b> <span class=bd>${E(x.s)}</span><div class=s>${new Date(x.ts).toLocaleString('fr-FR')} · mission : ${E(mt(x.m))}</div><div class=s>Instruction : ${E(x.i)}</div><pre>${E(x.r)}</pre></div>`).join('')||'<div class=s>Aucun échange pour l’instant.</div>')},
+docs(){const d=S.docs.find(x=>x.id==S.cur)||S.docs[0];
+ return `<h2>Livrables</h2><div class=c>${S.docs.map(x=>`<button class=ab onclick="S.cur='${x.id}';draw(1)">${E(x.t)}</button>`).join('')||'<span class=s>Aucun livrable.</span>'} <button onclick="nd()">+ Nouveau</button></div>`+
+ (d?`<div class=c><input id=dt value="${E(d.t)}"><textarea id=db style="min-height:240px">${E(d.b)}</textarea><div class=s>${E(d.src)}</div><div class=row><button class=p onclick="sd('${d.id}')">Enregistrer</button><button onclick="cp()">Copier</button>${['txt','csv','html','json'].map(f=>`<button onclick="ex('${d.id}','${f}')">.${f}</button>`).join('')}<button class=d onclick="dd('${d.id}')">Supprimer</button></div></div>`:'')},
+cust(){return `<h2>Mes agents</h2><div class=c><div class=s>Créez vos agents : ils rejoignent l’équipe, apparaissent dans le bureau et sont sauvegardés localement. Leurs instructions sont ajoutées à leurs trames de travail ; sans IA connectée, elles ne pilotent pas un vrai modèle. Un agent en lecture seule n’est jamais choisi par le directeur, mais vous pouvez lui parler ou lui attribuer une tâche.</div>
+ <input id=xn placeholder="Nom"><input id=xj placeholder="Métier"><select id=xd>${DEP.map(d=>`<option>${d}`).join('')}</select><input id=xs placeholder="Compétences, séparées par des virgules"><textarea id=xi placeholder="Instructions spécialisées"></textarea><textarea id=xm placeholder="Mémoire de travail (contexte à retenir)"></textarea>
+ <select id=xp><option>Peut produire des livrables<option>Lecture seule</select><div class=row><button class=p id=xb onclick="cxs()">Créer l’agent</button></div></div><div id=xl>${CL()}</div>`},
+conf(){const p=S.pf||{},T=['Particulier','Entrepreneur','Indépendant','Commerce','Boutique','Artisan','PME','Grande entreprise','Créateur de contenu','Autre'],U=['Je valide chaque étape','Équilibré','Autonome'];
+ return `<h2>Assistant de configuration</h2><div class=c><div class=s>Décrivez votre activité : l’assistant propose une équipe, que vous modifiez librement avant de l’appliquer. La proposition suit des règles simples (type d’activité, mots-clés), pas une IA. Le niveau d’autonomie est enregistré mais le moteur local ne l’utilise pas encore.</div>
+ <select id=ft>${T.map(t=>`<option${p.type==t?' selected':''}>${t}`).join('')}</select><input id=fn placeholder="Nom de l’activité" value="${E(p.nom)}"><input id=fs placeholder="Secteur" value="${E(p.sect)}">
+ <textarea id=fo placeholder="Objectifs">${E(p.obj)}</textarea><textarea id=fd placeholder="Difficultés">${E(p.diff)}</textarea><textarea id=fa placeholder="Tâches à automatiser">${E(p.tach)}</textarea>
+ <input id=fb type=number min=2 max=${AG.length} placeholder="Nombre d’agents souhaité" value="${p.nb||''}"><select id=fu>${U.map(t=>`<option${p.auto==t?' selected':''}>${t}`).join('')}</select>
+ <div class=row><button class=p onclick="fprop()">Proposer une équipe</button></div></div><div id=ft2></div>`},
+auto(){return `<h2>Automatisations</h2><div class=c><div class=w>Elles s’exécutent uniquement quand cette page est ouverte dans le navigateur. Page fermée, rien ne tourne : une exécution manquée est rattrapée une seule fois à la réouverture. Chaque exécution crée une mission du moteur local de démonstration.</div>
+ <div class=row>${PRE.map((p,i)=>`<button onclick="apre(${i})">${p[0]}</button>`).join('')}</div>
+ <input id=at placeholder="Titre"><textarea id=ar placeholder="Demande confiée au directeur"></textarea>
+ <div class=row><select id=ae>${Object.keys(EV).map(k=>`<option value=${k}>${EV[k]}`).join('')}</select><button class=p id=asb onclick="asv()">Créer</button></div></div><div id=al>${AL()}</div>`},
+set(){return `<h2>Réglages</h2><div class=c><b>Espace de travail</b><input id=ws value="${E(S.ws)}"><button class=p onclick="S.ws=$('#ws').value||'Mon espace';save();toast('Enregistré')">Enregistrer</button></div>
+ <div class=c><b>Données locales</b><div class=s>Enregistrées dans ce navigateur (localStorage), environ ${(JSON.stringify(S).length/1024).toFixed(1)} Ko. Sauvegarde automatique à chaque action.</div><div class=row><button onclick="dl('nexora-sauvegarde.json',JSON.stringify(S),'application/json')">Exporter en JSON</button><button onclick="$('#im').click()">Importer un JSON</button><input id=im type=file accept=.json onchange="imp(this)"><button class=d onclick="rs()">Réinitialiser</button></div></div>
+ ${HQ.tech()}
+ <div class=c><b>Fournisseurs IA</b><div class=s>Aucun modèle connecté : tout est produit par le moteur local de démonstration. Une clé API saisie dans une page ouverte dans un navigateur peut être lue par quiconque a le fichier. Pour Claude ou GPT, prévoyez plus tard un petit serveur qui garde la clé. Cette version n’en contient pas.</div></div>`}};
+const NAV=[['dash','🏠','Accueil'],['bureau','🏢','Bureau'],['dir','🎯','Directeur'],['team','👥','Équipe'],['cust','✨','Mes agents'],['conf','🧭','Assistant'],['miss','📋','Missions'],['auto','⏱️','Automations'],['comm','💬','Échanges'],['docs','📄','Livrables'],['set','⚙️','Réglages']];
+let V='dash';
+function go(v){V=v;draw(1)}
+function draw(f){$('#nav').innerHTML='<b class=lg>NEXORA<span>AI</span></b>'+NAV.map(n=>`<a tabindex=0 class="${V==n[0]?'on':''}" onclick="go('${n[0]}')"><i>${n[1]}</i>${n[2]}</a>`).join('');
+ if(V=='bureau'&&$('#c3')){$('#b2').innerHTML=B2();upd3();return}if(V=='auto'&&$('#al')&&!f){$('#al').innerHTML=AL();return}if(V=='cust'&&$('#xl')&&!f){$('#xl').innerHTML=CL();return}if(!f&&['dir','docs','set','conf'].includes(V))return; /* ne pas écraser une saisie en cours */
+ $('#v').innerHTML=VW[V]();if(V=='bureau')init3()}
+
+/* --- Livrables --- */
+function sd(id,q){const d=S.docs.find(x=>x.id==id);d.t=$('#dt').value||'Sans titre';d.b=$('#db').value;save();if(!q){toast('Enregistré');draw(1)}}
+function cp(){navigator.clipboard.writeText($('#db').value).then(()=>toast('Copié')).catch(()=>toast('Copie impossible : sélectionnez le texte'))}
+function nd(){const id=uid();S.docs.unshift({id,t:'Nouveau livrable',b:'',src:'Créé manuellement',ts:Date.now()});S.cur=id;save();draw(1)}
+function dd(id){if(!confirm('Supprimer ce livrable ?'))return;S.docs=S.docs.filter(x=>x.id!=id);save();draw(1)}
+function ex(id,f){sd(id,1);const d=S.docs.find(x=>x.id==id),n=d.t.replace(/[^\w-]+/g,'_');
+ if(f=='txt')dl(n+'.txt',d.b,'text/plain');
+ if(f=='html')dl(n+'.html',`<!doctype html><meta charset=utf-8><title>${E(d.t)}</title><h1>${E(d.t)}</h1><pre style="white-space:pre-wrap">${E(d.b)}</pre>`,'text/html');
+ if(f=='json')dl(n+'.json',JSON.stringify(d,null,2),'application/json');
+ if(f=='csv')dl(n+'.csv','ligne\n'+d.b.split('\n').map(l=>'"'+l.replace(/"/g,'""')+'"').join('\n'),'text/csv')}
+
+/* --- Réglages : import / réinitialisation --- */
+function imp(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(x.v!==1)throw 0;if(!confirm('Remplacer toutes les données actuelles par ce fichier ?'))return;S=x;S.chat=S.chat||{};S.au=S.au||[];S.off=S.off||[];S.ca=S.ca||[];S.pf=S.pf||{};S.hq=S.hq||{};syncCA();S.st={};save();draw(1);toast('Import réussi')}catch(e){toast('Fichier invalide : sauvegarde NEXORA attendue')}};r.readAsText(f)}
+function rs(){if(!confirm('Effacer toutes les données locales ? Pensez à exporter avant.'))return;localStorage.removeItem('nexora_v1');S=load();S.au=[];S.off=[];S.ca=[];S.pf={};S.hq={};syncCA();S.st={};draw(1);toast('Application réinitialisée')}
+
+/* --- Bureau 3D : siège social (Three.js 0.160 via importmap CDN ; repli sur la vue 2D si indisponible) --- */
+const B2=()=>VW.b2(),HO={};
+/* ===== SIÈGE SOCIAL 3D (NEXORA HQ) : plan, sièges, itinéraires ===== */
+const HQ=(()=>{
+'use strict';
+const CFG={glb:{downtown:'https://cdn.3dassets.dev/assets/17066/v1/model.glb',lobby:'https://cdn.3dassets.dev/assets/26326/v1/model.glb'},timeout:25000,WH:3.2,EH:3.4};
+const LOGS=[],log=t=>{LOGS.push(new Date().toLocaleTimeString('fr-FR')+' · '+t);if(LOGS.length>150)LOGS.shift()};
+/* Zones (x0,z0,x1,z1) en mètres. Bâtiment 60 x 40, façade d'entrée côté +z. */
+const Z=[
+ {id:'dir',n:'Bureau de direction',r:[-30,-20,-20,-6],fl:'wood',dep:['Direction'],d:'Bureau du directeur et de son contrôle qualité.'},
+ {id:'cmd',n:'Centre de commandement IA',r:[-20,-20,-8,-6],fl:'dark',dep:['Stratégie','Analyse'],d:'Pilotage, analyse et stratégie autour du mur d’écrans.'},
+ {id:'cre',n:'Studio création et communication',r:[-8,-20,4,-6],fl:'wood',dep:['Marketing','Communication','Création'],d:'Marketing, communication et création.'},
+ {id:'tec',n:'Pôle technologie',r:[4,-20,16,-6],fl:'concrete',dep:['Technologie','Développement','Sécurité'],d:'Technologie, développement et sécurité.'},
+ {id:'rec',n:'Bureau Recherche',r:[16,-20,23,-6],fl:'wood',dep:['Recherche'],d:'Bureau individuel vitré du département Recherche.'},
+ {id:'fin',n:'Bureau Finance',r:[23,-20,30,-6],fl:'wood',dep:['Finance'],d:'Bureau individuel vitré du département Finance.'},
+ {id:'cor',n:'Couloir',r:[-30,-6,30,-2],fl:'tile',dep:[],d:'Circulation principale.'},
+ {id:'rep',n:'Espace repos',r:[-30,-2,-19,20],fl:'carpet',dep:[],d:'Détente et cafétéria : les agents en attente s’y retrouvent.'},
+ {id:'ops',n:'Open space',r:[-19,-2,5,20],fl:'carpet',dep:['Commercial','Prospection','Administration','Ressources humaines','Production','Service client'],d:'Grand plateau : commercial, prospection, administration, RH, production, service client. Espace collaboratif au fond.'},
+ {id:'hal',n:'Hall et réception',r:[5,-2,17,20],fl:'marble',dep:[],d:'Hall d’entrée et réception.'},
+ {id:'mt1',n:'Salle de réunion A',r:[17,-2,30,9],fl:'carpet',dep:[],d:'Salle de réunion : lieu des collaborations (statut « En collaboration »).'},
+ {id:'mt2',n:'Salle de réunion B',r:[17,9,30,20],fl:'carpet',dep:[],d:'Seconde salle de réunion.'}];
+const ZB=id=>Z.find(z=>z.id==id),zc=z=>[(z.r[0]+z.r[2])/2,(z.r[1]+z.r[3])/2];
+const zoneAt=(x,y)=>Z.find(z=>x>=z.r[0]&&x<z.r[2]&&y>=z.r[1]&&y<z.r[3])||Z.find(z=>x>=z.r[0]-.01&&x<=z.r[2]+.01&&y>=z.r[1]-.01&&y<=z.r[3]+.01)||ZB('hal');
+/* Postes : grilles par zone (le sens 0 = l'agent regarde vers -z). Extensible si des agents personnalisés s'ajoutent. */
+const GR={cmd:{xs:[-16.5,-11.5],zs:[-15.5,-10.5]},cre:{xs:[-5.6,-2,1.6],zs:[-16,-11]},tec:{xs:[6.4,10,13.6],zs:[-16,-11]},rec:{xs:[19.5],zs:[-16,-11]},fin:{xs:[26.5],zs:[-16,-11]},ops:{xs:[-15.5,-10.5,-5.5,-0.5],zs:[1.5,6,10.5]},dir:{list:[[-25.2,-16.6],[-22.4,-11.2]]}};
+function seatFor(zid,k){const g=GR[zid],z=ZB(zid);if(!g)return null;if(g.list){if(k<g.list.length)return{x:g.list[k][0],z:g.list[k][1],ry:0};return null}
+ const n=g.xs.length,row=Math.floor(k/n);let zz=row<g.zs.length?g.zs[row]:g.zs[g.zs.length-1]+(row-g.zs.length+1)*4.5;
+ if(zz>z.r[3]-2.6)return null;return{x:g.xs[k%n],z:zz,ry:0}}
+/* Points d'accueil quand un poste manque, d'attente (repos) et de réunion */
+const COLS=[],REP=[],MEET=[];
+for(let i=0;i<14;i++)COLS.push({x:-15+(i%7)*2.7,z:16.2+Math.floor(i/7)*2.2,ry:Math.PI});
+[[-27.6,4.5],[-25.4,6.5],[-27.4,9],[-24.6,3],[-26.2,13.5],[-23.6,15.5],[-27.6,17],[-22.4,9.5],[-24.2,12],[-22.6,5],[-27,2.2],[-22.2,18]].forEach((p,i)=>REP.push({x:p[0],z:p[1],ry:i%2?-1.2:1.2}));
+for(let i=0;i<8;i++){const a=i/8*Math.PI*2;MEET.push({x:23.5+Math.cos(a)*2.35,z:3.5+Math.sin(a)*1.55,ry:Math.atan2(-Math.cos(a),-Math.sin(a)),sit:1})}
+/* Portails (portes ou ouvertures) : zoneA, zoneB, x, z, axe de l'épaisseur, largeur, ouvert (sans cadre) */
+const PT=[['dir','cor',-25,-6,'z',1.7],['cmd','cor',-14,-6,'z',1.7],['cre','cor',-2,-6,'z',1.7],['tec','cor',10,-6,'z',1.7],['rec','cor',19.5,-6,'z',1.7],['fin','cor',26.5,-6,'z',1.7],
+ ['cor','rep',-24.5,-2,'z',2.2],['cor','ops',-7,-2,'z',14,1],['cor','hal',11,-2,'z',3.2],['cor','mt1',23.5,-2,'z',1.8],
+ ['rep','ops',-19,8,'x',2.4],['ops','hal',5,8,'x',10,1],['hal','mt1',17,3.5,'x',1.8],['hal','mt2',17,14.5,'x',1.8]];
+function route(f,t){const a=zoneAt(f[0],f[1]).id,b=zoneAt(t[0],t[1]).id;if(a==b)return[t];
+ const q=[[a,[]]],seen={[a]:1};let res=null;
+ while(q.length&&!res){const[c,p]=q.shift();for(const e of PT){const o=e[0]==c?e[1]:e[1]==c?e[0]:null;if(!o||seen[o])continue;seen[o]=1;const np=p.concat([[e,c,o]]);if(o==b){res=np;break}q.push([o,np])}}
+ if(!res)return[t];const w=[];
+ res.forEach(([e,c,o])=>{const ax=e[4]=='z'?1:0,P=[e[2],e[3]],s=Math.sign(zc(ZB(c))[ax]-P[ax])||1,A=P.slice(),B=P.slice();A[ax]+=s*.9;B[ax]-=s*.9;w.push(A,B)});
+ w.push(t);return w}
+
+/* ---- B : textures, matériaux, fusion de géométries, architecture ---- */
+let R=null,LIB={state:'idle',kinds:{},info:[]};const TXC={};
+let _m,_n3,_v,_q,_e,_s;
+function initH(){if(_m)return;_m=new THREE.Matrix4();_n3=new THREE.Matrix3();_v=new THREE.Vector3();_q=new THREE.Quaternion();_e=new THREE.Euler();_s=new THREE.Vector3()}
+const rnd=(i)=>{const x=Math.sin(i*127.1+311.7)*43758.5453;return x-Math.floor(x)};
+function ctex(name,size,fn){if(TXC[name])return TXC[name];const c=document.createElement('canvas');c.width=c.height=size;fn(c.getContext('2d'),size);const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=4;return TXC[name]=t}
+const TXF={
+ wood:c=>ctex('wood',128,(g,S)=>{for(let i=0;i<8;i++){g.fillStyle=`hsl(28,${38+i%3*6}%,${46+i%4*3}%)`;g.fillRect(0,i*S/8,S,S/8);for(let k=0;k<26;k++){g.fillStyle='rgba(60,30,10,.10)';g.fillRect(rnd(i*40+k)*S,i*S/8+rnd(k+i*9)*S/8,18+rnd(k)*40,1)}g.fillStyle='rgba(0,0,0,.35)';g.fillRect(0,i*S/8,S,1);g.fillRect(rnd(i+3)*S,i*S/8,1,S/8)}}),
+ concrete:c=>ctex('concrete',128,(g,S)=>{g.fillStyle='#8a8d93';g.fillRect(0,0,S,S);for(let i=0;i<900;i++){g.fillStyle=`rgba(${rnd(i)>.5?255:0},${rnd(i)>.5?255:0},${rnd(i)>.5?255:0},.05)`;g.fillRect(rnd(i+1)*S,rnd(i+2)*S,2,2)}g.strokeStyle='rgba(0,0,0,.25)';g.strokeRect(0,0,S,S)}),
+ carpet:c=>ctex('carpet',64,(g,S)=>{g.fillStyle='#3b3f4e';g.fillRect(0,0,S,S);for(let i=0;i<500;i++){g.fillStyle=rnd(i)>.5?'rgba(255,255,255,.07)':'rgba(0,0,0,.12)';g.fillRect(rnd(i+7)*S,rnd(i+9)*S,2,2)}}),
+ tile:c=>ctex('tile',128,(g,S)=>{g.fillStyle='#c9ccd1';g.fillRect(0,0,S,S);g.fillStyle='#d6d9de';g.fillRect(0,0,S/2,S/2);g.fillRect(S/2,S/2,S/2,S/2);g.strokeStyle='rgba(0,0,0,.28)';g.lineWidth=2;g.strokeRect(0,0,S/2,S/2);g.strokeRect(S/2,S/2,S/2,S/2);g.strokeRect(S/2,0,S/2,S/2);g.strokeRect(0,S/2,S/2,S/2)}),
+ marble:c=>ctex('marble',128,(g,S)=>{g.fillStyle='#e7e5e2';g.fillRect(0,0,S,S);g.strokeStyle='rgba(90,90,110,.22)';for(let i=0;i<10;i++){g.beginPath();g.moveTo(rnd(i)*S,0);g.bezierCurveTo(rnd(i+1)*S,S*.3,rnd(i+2)*S,S*.6,rnd(i+3)*S,S);g.stroke()}g.strokeStyle='rgba(0,0,0,.18)';g.strokeRect(0,0,S,S)}),
+ dark:c=>ctex('dark',64,(g,S)=>{g.fillStyle='#1b1d27';g.fillRect(0,0,S,S);g.strokeStyle='rgba(139,92,246,.22)';g.strokeRect(0,0,S,S);for(let i=0;i<120;i++){g.fillStyle='rgba(255,255,255,.04)';g.fillRect(rnd(i)*S,rnd(i+3)*S,2,2)}}),
+ grass:c=>ctex('grass',64,(g,S)=>{g.fillStyle='#17331f';g.fillRect(0,0,S,S);for(let i=0;i<400;i++){g.fillStyle=rnd(i)>.5?'rgba(80,160,90,.18)':'rgba(0,0,0,.18)';g.fillRect(rnd(i+1)*S,rnd(i+2)*S,2,3)}})};
+function screenTex(k){return ctex('scr'+k,128,(g,S)=>{g.fillStyle=['#0d1424','#14102a','#0c1c1f'][k%3];g.fillRect(0,0,S,S);g.fillStyle=k%2?'#8b5cf6':'#38bdf8';g.fillRect(6,6,S-12,8);for(let i=0;i<9;i++){g.fillStyle=['#38bdf8','#8b5cf6','#34d399','#fb923c'][(i+k)%4];g.globalAlpha=.7;g.fillRect(10,22+i*11,18+rnd(i+k*5)*80,5);g.globalAlpha=1}})}
+function mkMats(env){const std=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.7,metalness:0},o||{})),fl=(n,rep)=>{const t=TXF[n]();return std(0xffffff,{map:t,roughness:n=='marble'?.25:.8})};
+ const m={wall:std(0xe8e5de,{roughness:.9}),ext:std(0x2e333b,{roughness:.85}),concrete:std(0x8a8d93,{roughness:.9}),wood:std(0xb98a5a,{roughness:.5}),woodD:std(0x5f4029,{roughness:.55}),metal:std(0xa4aab4,{roughness:.28,metalness:.85,envMap:env,envMapIntensity:.9}),black:std(0x14151a,{roughness:.45}),white:std(0xf2f2f5,{roughness:.6}),
+  glass:std(0xa9d8ff,{roughness:.05,metalness:.1,transparent:true,opacity:.2,depthWrite:false,envMap:env,envMapIntensity:1.2}),
+  fabV:std(0x5b4b8a,{roughness:.95}),fabB:std(0x2f6f9f,{roughness:.95}),fabG:std(0x454b55,{roughness:.95}),fabO:std(0xc2662d,{roughness:.95}),leaf:std(0x2f8a4e,{roughness:.8}),leaf2:std(0x3da25f,{roughness:.8}),pot:std(0xd9d3c8,{roughness:.6}),
+  accV:std(0x8b5cf6,{emissive:0x8b5cf6,emissiveIntensity:.9,roughness:.4}),accB:std(0x38bdf8,{emissive:0x38bdf8,emissiveIntensity:.9,roughness:.4}),light:std(0xfff4dc,{emissive:0xfff0cf,emissiveIntensity:1.1}),
+  fWood:fl('wood'),fConcrete:fl('concrete'),fCarpet:fl('carpet'),fTile:fl('tile'),fMarble:fl('marble'),fDark:fl('dark'),grass:fl('grass'),path:std(0x3a3f48,{roughness:.9}),
+  s0:std(0xffffff,{map:screenTex(0),emissive:0xffffff,emissiveMap:screenTex(0),emissiveIntensity:.8,roughness:.3}),s1:std(0xffffff,{map:screenTex(1),emissive:0xffffff,emissiveMap:screenTex(1),emissiveIntensity:.8,roughness:.3}),s2:std(0xffffff,{map:screenTex(2),emissive:0xffffff,emissiveMap:screenTex(2),emissiveIntensity:.8,roughness:.3})};
+ return m}
+function envMap(rd){try{const sc=new THREE.Scene();sc.background=new THREE.Color(0x5a6678);const l=new THREE.Mesh(new THREE.BoxGeometry(14,.2,6),new THREE.MeshBasicMaterial({color:0xffffff}));l.position.set(0,9,0);sc.add(l);const l2=new THREE.Mesh(new THREE.BoxGeometry(.2,6,12),new THREE.MeshBasicMaterial({color:0xcfe3ff}));l2.position.set(10,4,0);sc.add(l2);const p=new THREE.PMREMGenerator(rd),t=p.fromScene(sc,.04).texture;p.dispose();return t}catch(e){log('Carte d’environnement indisponible : '+e.message);return null}}
+/* Fusion : tous les volumes statiques d'un même matériau forment un seul maillage */
+function Batch(){this.m={};this.g={}}
+Batch.prototype.geo=function(k,f){return this.g[k]||(this.g[k]=f())};
+Batch.prototype.add=function(key,geo,x,y,z,ry,sx,sy,sz,rx,rz){const b=this.m[key]||(this.m[key]={p:[],n:[],u:[],i:[],o:0});
+ _m.compose(_v.set(x,y,z),_q.setFromEuler(_e.set(rx||0,ry||0,rz||0)),_s.set(sx==null?1:sx,sy==null?1:sy,sz==null?1:sz));_n3.getNormalMatrix(_m);
+ const P=geo.attributes.position,N=geo.attributes.normal,U=geo.attributes.uv,I=geo.index,e=_m.elements;
+ for(let i=0;i<P.count;i++){const px=P.getX(i),py=P.getY(i),pz=P.getZ(i);b.p.push(e[0]*px+e[4]*py+e[8]*pz+e[12],e[1]*px+e[5]*py+e[9]*pz+e[13],e[2]*px+e[6]*py+e[10]*pz+e[14]);
+  const nx=N.getX(i),ny=N.getY(i),nz=N.getZ(i),n=_n3.elements;let a=n[0]*nx+n[3]*ny+n[6]*nz,c=n[1]*nx+n[4]*ny+n[7]*nz,d=n[2]*nx+n[5]*ny+n[8]*nz;const l=Math.hypot(a,c,d)||1;b.n.push(a/l,c/l,d/l);b.u.push(U.getX(i),U.getY(i))}
+ for(let i=0;i<I.count;i++)b.i.push(I.getX(i)+b.o);b.o+=P.count};
+Batch.prototype.box=function(key,w,h,d,x,y,z,ry,rx,rz){this.add(key,this.geo('b'+w+'|'+h+'|'+d,()=>new THREE.BoxGeometry(w,h,d)),x,y,z,ry,1,1,1,rx,rz)};
+Batch.prototype.cyl=function(key,rt,rb,h,x,y,z,seg,sx,sz,rx,rz,ry){this.add(key,this.geo('c'+rt+'|'+rb+'|'+h+'|'+seg,()=>new THREE.CylinderGeometry(rt,rb,h,seg||12)),x,y,z,ry||0,sx||1,1,sz||1,rx,rz)};
+Batch.prototype.sph=function(key,r,x,y,z,sx,sy,sz){this.add(key,this.geo('s'+r,()=>new THREE.SphereGeometry(r,12,9)),x,y,z,0,sx||1,sy||1,sz||1)};
+Batch.prototype.build=function(mats,own,parent,shadow){const out=[];for(const k in this.m){const b=this.m[k],g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(b.p,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(b.n,3));g.setAttribute('uv',new THREE.Float32BufferAttribute(b.u,2));g.setIndex(b.i);own(g);
+  const me=new THREE.Mesh(g,mats[k]);me.castShadow=shadow&&k!='glass';me.receiveShadow=shadow;me.userData.bk=k;parent.add(me);out.push(me)}return out};
+/* Murs : segments pleins, ouvertures (portes avec cadre et battant, fenêtres vitrées), cloisons vitrées à meneaux */
+const DEFW={ext:'ext',wall:'wall',wood:'woodD',concrete:'concrete'};
+function wall(B,w){const[ax,az]=w.a,[bx,bz]=w.b,L=Math.hypot(bx-ax,bz-az),ux=(bx-ax)/L,uz=(bz-az)/L,ry=-Math.atan2(uz,ux),h=w.h||CFG.WH,t=w.t||.14,mk=DEFW[w.m]||'wall',gl=w.k=='glass';
+ const ops=(w.op||[]).map(o=>{const c=Math.abs(ux?o.c-ax:o.c-az);return{s0:c-o.w/2,s1:c+o.w/2,t:o.t||'door'}}).sort((p,q)=>p.s0-q.s0);
+ const seg=(key,s0,s1,y0,y1,tt)=>{if(s1-s0<.02||y1-y0<.02)return;const m=(s0+s1)/2;B.box(key,s1-s0,y1-y0,tt||t,ax+ux*m,(y0+y1)/2,az+uz*m,ry)};
+ const post=(s,y1)=>seg('black',s-.035,s+.035,0,y1,t+.04);
+ const span=(s0,s1)=>{if(!gl){seg(mk,s0,s1,0,h);return}seg('metal',s0,s1,0,.1,t+.03);seg('glass',s0,s1,.1,h-.22,.03);seg('metal',s0,s1,h-.22,h,t+.03);for(let s=s0+2.4;s<s1-.3;s+=2.4)post(s,h)};
+ let p=0;ops.forEach(o=>{span(p,o.s0);
+  if(o.t=='win'){seg(mk,o.s0,o.s1,0,.9);seg(mk,o.s0,o.s1,2.7,h);seg('glass',o.s0,o.s1,.9,2.7,.03);seg('black',o.s0,o.s1,.88,.94,t+.04);seg('black',o.s0,o.s1,2.66,2.72,t+.04);post(o.s0,2.72);post(o.s1,2.72);post((o.s0+o.s1)/2,2.7)}
+  else{const dh=2.2;if(gl)seg('glass',o.s0,o.s1,dh,h-.22,.03);else seg(mk,o.s0,o.s1,dh,h);seg('black',o.s0,o.s1,dh-.05,dh+.02,t+.05);post(o.s0,dh);post(o.s1,dh);
+   if(o.w<3.4&&o.w>.8){const lw=o.w-.12,th=1.2,mx=ax+ux*(o.s0+.05+lw/2*Math.cos(th))+(-uz)*(lw/2*Math.sin(th)),mz=az+uz*(o.s0+.05+lw/2*Math.cos(th))+ux*(lw/2*Math.sin(th));B.box('wood',lw,2.1,.045,mx,1.05,mz,ry-th)}}
+  p=o.s1});span(p,L);
+ /* grands châssis métalliques en tête de mur extérieur */
+ if(w.m=='ext')seg('black',0,L,h-.04,h+.06,t+.1)}
+const WALLS=(()=>{const W=[];
+ W.push({a:[-30,20],b:[30,20],m:'ext',t:.3,h:CFG.EH,op:[{c:-24,w:3.2,t:'win'},{c:-14,w:3.2,t:'win'},{c:-4,w:3.2,t:'win'},{c:11,w:3.6,t:'door'},{c:21,w:3.2,t:'win'},{c:27,w:3.2,t:'win'}]});
+ W.push({a:[-30,-20],b:[30,-20],m:'ext',t:.3,h:CFG.EH,op:[-25,-14,-2,10,19.5,26.5].map(c=>({c,w:3.4,t:'win'}))});
+ W.push({a:[-30,-20],b:[-30,20],m:'ext',t:.3,h:CFG.EH,op:[-14,-4,4,12,17].map(c=>({c,w:2.8,t:'win'}))});
+ W.push({a:[30,-20],b:[30,20],m:'ext',t:.3,h:CFG.EH,op:[-14,-4,4,14].map(c=>({c,w:2.8,t:'win'}))});
+ W.push({a:[-30,-6],b:[-20,-6],m:'wood',t:.16,op:[{c:-25,w:1.7}]});
+ W.push({a:[-20,-6],b:[30,-6],k:'glass',op:[-14,-2,10,19.5,26.5].map(c=>({c,w:1.7}))});
+ W.push({a:[-20,-20],b:[-20,-6],m:'wood',t:.16});W.push({a:[-8,-20],b:[-8,-6],k:'glass'});W.push({a:[4,-20],b:[4,-6],k:'glass'});W.push({a:[16,-20],b:[16,-6],m:'concrete',t:.16});W.push({a:[23,-20],b:[23,-6],k:'glass'});
+ W.push({a:[-30,-2],b:[-19,-2],m:'wall',t:.16,op:[{c:-24.5,w:2.2}]});W.push({a:[5,-2],b:[17,-2],m:'wall',t:.16,op:[{c:11,w:3.2}]});W.push({a:[17,-2],b:[30,-2],m:'wall',t:.16,op:[{c:23.5,w:1.8}]});
+ W.push({a:[-19,-2],b:[-19,20],k:'glass',op:[{c:8,w:2.4}]});W.push({a:[17,-2],b:[17,20],k:'glass',op:[{c:3.5,w:1.8},{c:14.5,w:1.8}]});W.push({a:[17,9],b:[30,9],k:'glass'});
+ return W})();
+function buildShell(B,mats,own,g){
+ const sh=true;
+ /* sols par zone (UV à l'échelle du monde) + sélection */
+ const FM={wood:'fWood',concrete:'fConcrete',carpet:'fCarpet',tile:'fTile',marble:'fMarble',dark:'fDark'},TS={fWood:3,fConcrete:4,fCarpet:2.5,fTile:2.5,fMarble:3,fDark:3};
+ R.pick=[];R.glow={};R.zmesh={};
+ Z.forEach(z=>{const w=z.r[2]-z.r[0],d=z.r[3]-z.r[1],gm=own(new THREE.PlaneGeometry(w,d)),uv=gm.attributes.uv,mk=FM[z.fl],ts=TS[mk];for(let i=0;i<uv.count;i++)uv.setXY(i,uv.getX(i)*w/ts,uv.getY(i)*d/ts);
+  const m=new THREE.Mesh(gm,mats[mk]);m.rotation.x=-Math.PI/2;m.position.set((z.r[0]+z.r[2])/2,.02,(z.r[1]+z.r[3])/2);m.receiveShadow=sh;m.userData.zone=z.id;g.add(m);R.pick.push(m);R.zmesh[z.id]=m;
+  if(z.dep.length){const gl=new THREE.Mesh(gm,own(new THREE.MeshBasicMaterial({color:0x8b5cf6,transparent:true,opacity:0,depthWrite:false})));gl.rotation.x=-Math.PI/2;gl.position.set(m.position.x,.04,m.position.z);gl.visible=false;g.add(gl);R.glow[z.id]=gl}});
+ /* socle, sol extérieur, allée, arbres (instances) */
+ const gr=new THREE.Mesh(own(new THREE.PlaneGeometry(220,220)),mats.grass);gr.rotation.x=-Math.PI/2;gr.position.y=-.35;mats.grass.map.repeat.set(55,55);g.add(gr);
+ B.box('concrete',62,.4,42,0,-.2,0);B.box('path',5,.06,16,11,-.03,28);B.box('concrete',64,.16,.5,0,.0,20.5);
+ const tm=[[new THREE.ConeGeometry(1.5,3.4,8),3.1,0x113322],[new THREE.ConeGeometry(1.1,2.6,8),4.9,0x17422a],[new THREE.CylinderGeometry(.2,.25,1.4,6),.7,0x3a2a1a]].map(a=>{const m=new THREE.InstancedMesh(own(a[0]),own(new THREE.MeshStandardMaterial({color:a[2],roughness:.9})),70);m.userData.y=a[1];g.add(m);return m}),M4=new THREE.Matrix4();let ti=0;
+ for(let i=0;ti<70&&i<500;i++){const x=(rnd(i)-.5)*150,z=(rnd(i+500)-.5)*110;if(Math.abs(x)<36&&z>-26&&z<44)continue;const k=.8+rnd(i+9)*.8;tm.forEach(m=>{M4.makeScale(k,k,k).setPosition(x,m.userData.y*k-.3,z);m.setMatrixAt(ti,M4)});ti++}
+ tm.forEach(m=>{m.count=ti;m.instanceMatrix.needsUpdate=true});
+ /* murs : groupe séparé (murs bas / complets) */
+ R.wg=new THREE.Group();g.add(R.wg);const BW=new Batch();WALLS.forEach(w=>wall(BW,w));
+ /* enseigne et logo mural de la réception */
+ BW.box('accV',4.2,.28,.1,11,3.05,19.7);BW.box('accB',4.2,.06,.12,11,2.85,19.7);BW.box('black',6.5,.3,.5,11,3.35,21.4);
+ BW.build(mats,own,R.wg,sh);
+ /* toit et plafond : escamotables */
+ R.roof=new THREE.Group();const BR=new Batch();BR.box('concrete',60.8,.3,40.8,0,CFG.EH+.15,0);BR.box('black',61.2,.5,.3,0,CFG.EH+.3,20.5);BR.box('black',61.2,.5,.3,0,CFG.EH+.3,-20.5);BR.box('black',.3,.5,41,30.5,CFG.EH+.3,0);BR.box('black',.3,.5,41,-30.5,CFG.EH+.3,0);
+ for(let x=-27;x<=27;x+=6)for(let z=-17;z<=17;z+=8)BR.box('light',3.2,.04,.5,x,CFG.EH-.04,z);
+ BR.build(mats,own,R.roof,false);R.roof.visible=false;g.add(R.roof)}
+
+/* ---- C : attribution des postes, mobilier, bibliothèque GLB ---- */
+function assign(AGS){const home={},ws=[],zones=Z.filter(z=>z.dep.length),zOf=a=>zones.find(z=>z.dep.includes(a.d))||ZB('ops');let ov=0;
+ zones.forEach(z=>{const L=AGS.filter(a=>zOf(a)==z).map((a,i)=>[a,i]).sort((p,q)=>z.dep.indexOf(p[0].d)-z.dep.indexOf(q[0].d)||p[1]-q[1]).map(p=>p[0]);
+  L.forEach((a,i)=>{const s=seatFor(z.id,i);if(s){home[a.id]={x:s.x+.85*Math.sin(s.ry),z:s.z+.85*Math.cos(s.ry),face:s.ry+Math.PI,sit:1,zone:z.id,ws:s};ws.push({x:s.x,z:s.z,ry:s.ry,zone:z.id,big:z.id=='dir'&&i==0})}else{const c=COLS[ov++%COLS.length];home[a.id]={x:c.x,z:c.z,face:c.ry,sit:0,zone:'ops'}}})});
+ return{home,ws}}
+const P=(p)=>{const c=Math.cos(p.ry||0),s=Math.sin(p.ry||0);return(lx,lz)=>[p.x+lx*c+lz*s,p.z-lx*s+lz*c]};
+const FX={
+ ws(B,p){const f=P(p),w=p.big?2.4:1.6,d=p.big?1.05:.8,r=p.ry||0,o=(lx,y,lz,k,W,H,D)=>{const q=f(lx,lz);B.box(k,W,H,D,q[0],y,q[1],r)};
+  if(p.body!==false){o(0,.74,0,'wood',w,.04,d);o(-(w/2-.04),.37,0,'metal',.04,.72,d-.1);o(w/2-.04,.37,0,'metal',.04,.72,d-.1);o(0,.45,-d/2+.06,'woodD',w-.1,.4,.02);if(p.big){o(w/2-.3,.7,.7,'wood',.6,.04,.6)}}
+  [-.3,.3].forEach((lx,i)=>{const sx=p.big?lx*1.5:lx;o(sx,.78,-.22,'black',.1,.04,.1);o(sx,.9,-.24,'metal',.03,.24,.02);o(sx,1.06,-.26,'black',.56,.33,.025);const q=f(sx,-.26+.0),n=f(sx,-.26+.014);B.box('s'+((p.ix||0)+i)%3,.52,.29,.004,n[0],1.06,n[1],r)});
+  o(0,.77,.2,'black',.42,.015,.14);o(.34,.77,.22,'black',.06,.02,.1);const q=f(p.big?.95:.65,.1);B.cyl('white',.04,.04,.09,q[0],.8,q[1],10)},
+ chair(B,p){const f=P(p),r=p.ry||0,o=(lx,y,lz,k,W,H,D)=>{const q=f(lx,lz);B.box(k,W,H,D,q[0],y,q[1],r)},c=p.c||'fabG';
+  o(0,.48,0,c,.46,.07,.46);o(0,.78,.22,c,.44,.5,.06);o(-.25,.62,0,'black',.04,.04,.34);o(.25,.62,0,'black',.04,.04,.34);const q=f(0,0);B.cyl('metal',.025,.025,.3,q[0],.3,q[1],8);B.cyl('black',.27,.27,.04,q[0],.07,q[1],5);B.cyl('black',.04,.04,.04,q[0],.03,q[1],6)},
+ sofa(B,p){const f=P(p),r=p.ry||0,w=p.w||2.1,c=p.c||'fabV',o=(lx,y,lz,k,W,H,D)=>{const q=f(lx,lz);B.box(k,W,H,D,q[0],y,q[1],r)};
+  o(0,.22,0,c,w,.32,.9);o(0,.62,.38,c,w,.6,.2);o(-w/2+.1,.45,0,c,.2,.5,.9);o(w/2-.1,.45,0,c,.2,.5,.9);const n=Math.max(2,Math.round(w/.7));for(let i=0;i<n;i++)o(-w/2+.2+(i+.5)*(w-.4)/n,.43,-.02,c,(w-.4)/n-.03,.12,.7);[-w/2+.1,w/2-.1].forEach(x=>o(x,.03,.3,'black',.05,.06,.05))},
+ armchair(B,p){FX.sofa(B,Object.assign({},p,{w:.95}))},
+ coffee(B,p){B.cyl('wood',.55,.55,.04,p.x,.42,p.z,24);B.cyl('metal',.05,.05,.4,p.x,.2,p.z,8);B.cyl('metal',.3,.3,.03,p.x,.02,p.z,16)},
+ mtable(B,p){const f=P(p),w=p.w||4.6,d=p.d||1.6,r=p.ry||0,o=(lx,y,lz,k,W,H,D)=>{const q=f(lx,lz);B.box(k,W,H,D,q[0],y,q[1],r)};o(0,.74,0,'wood',w,.06,d);o(-w/2+.5,.37,0,'black',.1,.72,d-.5);o(w/2-.5,.37,0,'black',.1,.72,d-.5);o(0,.6,0,'black',w-1,.05,.3);o(0,.76,0,'accB',.5,.005,.06)},
+ reception(B,p){const f=P(p),r=p.ry||0,o=(lx,y,lz,k,W,H,D)=>{const q=f(lx,lz);B.box(k,W,H,D,q[0],y,q[1],r)};o(0,.55,0,'woodD',4.6,1.1,.7);o(0,1.12,0,'white',4.8,.05,.85);o(0,.04,.36,'accV',4.4,.04,.02);o(-1.6,.4,-.7,'woodD',1.3,.8,.6);o(-1.6,.82,-.7,'white',1.4,.04,.7);o(.9,1.3,-.1,'black',.5,.3,.03)},
+ plant(B,p){const h=p.h||1;B.cyl('pot',.22,.17,.38,p.x,.19,p.z,12);B.cyl('woodD',.03,.04,.5*h,p.x,.5+.25*h,p.z,6);B.sph('leaf',.34*h,p.x,.95*h+.3,p.z,1,.9,1);B.sph('leaf2',.25*h,p.x+.2,.72*h+.3,p.z+.1,1,.9,1);B.sph('leaf2',.22*h,p.x-.18,.8*h+.3,p.z-.12,1,.9,1)},
+ lamp(B,p){B.cyl('black',.18,.18,.03,p.x,.02,p.z,10);B.cyl('metal',.015,.015,1.55,p.x,.8,p.z,6);B.cyl('light',.17,.12,.26,p.x,1.62,p.z,12)},
+ shelf(B,p){const f=P(p),r=p.ry||0,w=p.w||1.6,o=(lx,y,lz,k,W,H,D)=>{const q=f(lx,lz);B.box(k,W,H,D,q[0],y,q[1],r)},ks=['fabB','fabO','fabV','white','leaf'];o(0,.9,0,'woodD',w,1.8,.04);o(-w/2,.9,.18,'woodD',.04,1.8,.4);o(w/2,.9,.18,'woodD',.04,1.8,.4);for(let i=0;i<5;i++){o(0,.05+i*.42,.18,'woodD',w,.03,.4);for(let j=0;j<Math.floor(w/.2);j++)if(rnd(i*13+j+(p.x||0))>.35)o(-w/2+.15+j*.2,.2+i*.42,.18,ks[(i+j)%5],.12,.28+rnd(i+j)*.1,.26)}},
+ rack(B,p){const f=P(p),r=p.ry||0,o=(lx,y,lz,k,W,H,D)=>{const q=f(lx,lz);B.box(k,W,H,D,q[0],y,q[1],r)};o(0,1,0,'black',.7,2,.9);for(let i=0;i<9;i++){o(.0,.25+i*.2,.46,rnd(i)>.5?'accB':'accV',.5,.02,.01)}},
+ screenwall(B,p){const f=P(p),r=p.ry||0,w=p.w||8,q=f(0,0),n=f(0,.04);B.box('black',w+.3,2.4,.12,q[0],1.9,q[1],r);B.box('s'+((p.ix||0)%3),w,2.2,.01,n[0],1.9,n[1],r)},
+ board(B,p){const f=P(p),r=p.ry||0,q=f(0,0);B.box('metal',2.5,1.3,.05,q[0],1.5,q[1],r);B.box('white',2.4,1.2,.06,q[0],1.5,q[1],r)},
+ bar(B,p){const f=P(p),r=p.ry||0,o=(lx,y,lz,k,W,H,D)=>{const q=f(lx,lz);B.box(k,W,H,D,q[0],y,q[1],r)};o(0,.55,0,'woodD',.7,1.1,5.2);o(0,1.12,0,'white',.8,.05,5.3);for(let i=0;i<4;i++){const q=f(.95,-1.8+i*1.2);B.cyl('fabO',.2,.2,.06,q[0],.68,q[1],12);B.cyl('metal',.03,.03,.66,q[0],.33,q[1],6)}}};
+const KMAP={ws:'desk',chair:'chair',sofa:'sofa',armchair:'armchair',coffee:'coffee',mtable:'mtable',reception:'reception',plant:'plant',lamp:'lamp',shelf:'shelf'};
+function layoutFurn(A){const F=[],add=(k,x,z,ry,o)=>F.push(Object.assign({k,x,z,ry:ry||0},o||{}));
+ A.ws.forEach((w,i)=>{add('ws',w.x,w.z,w.ry,{big:w.big,ix:i});const c=P(w)(0,.85);add('chair',c[0],c[1],w.ry,{c:['fabG','fabV','fabB'][i%3]})});
+ /* direction */ add('shelf',-29.6,-13,Math.PI/2,{w:2.4});add('sofa',-27.6,-7.6,0,{w:2.4,c:'fabB'});add('coffee',-27.6,-9.2);add('plant',-21.2,-7);add('plant',-29,-19);add('lamp',-21,-18.4);
+ /* centre de commandement */ add('screenwall',-14,-19.9,0,{w:9,ix:1});add('plant',-19,-7);add('plant',-9,-7);
+ /* création / tech / bureaux */ add('board',-2,-19.9,0);add('sofa',-2,-7.2,0,{w:2.2,c:'fabO'});add('plant',3.2,-19);add('plant',-7.2,-19);
+ for(let i=0;i<3;i++)add('rack',15.2,-18+i*1.5,Math.PI/2);add('plant',4.8,-7);add('shelf',16.9,-19.6,0,{w:1.4});add('shelf',29.0,-19.6,0,{w:1.4});add('plant',22.4,-7);add('plant',29.2,-7);
+ /* couloir */ [-27,-12,2,16,27].forEach(x=>add('plant',x,-5.5));
+ /* repos */ add('sofa',-25,6.5,0,{w:2.6,c:'fabB'});add('sofa',-22.5,12.8,Math.PI/2,{w:2.2,c:'fabV'});add('coffee',-25,3.8);add('armchair',-27.4,9.6,Math.PI/2,{c:'fabO'});add('armchair',-22.6,5,-Math.PI/2,{c:'fabG'});add('bar',-29.2,16);add('lamp',-28.6,3);add('plant',-29,-1);add('plant',-20,19);add('plant',-29,19.2);
+ /* open space / collaboratif */ add('plant',-18.4,-1);add('plant',4.4,-1);add('plant',-18.4,13);add('plant',4.4,13);add('sofa',-17,19,Math.PI,{w:2.4,c:'fabV'});add('coffee',-17,16.9);add('board',-10,19.9,Math.PI);add('mtable',-3,17.8,0,{w:2.6,d:1.4});for(let i=0;i<4;i++){add('chair',-4.2+i*.8,16.5,Math.PI,{c:'fabO'});add('chair',-4.2+i*.8,19.1,0,{c:'fabO'})}
+ /* hall */ add('reception',11,16,0);add('armchair',7.5,4,Math.PI/2,{c:'fabB'});add('armchair',7.5,7,Math.PI/2,{c:'fabV'});add('coffee',9.4,5.5);add('plant',6,19);add('plant',16,19);add('plant',6,-1);add('plant',16,-1);add('lamp',15.4,6);
+ /* réunions */ add('mtable',23.5,3.5,0,{w:4.6,d:1.6});add('mtable',23.5,14.5,0,{w:4.6,d:1.6});add('screenwall',29.9,3.5,-Math.PI/2,{w:3.4,ix:2});add('screenwall',29.9,14.5,-Math.PI/2,{w:3.4,ix:0});add('plant',18,8);add('plant',29,8);add('plant',18,19);
+ MEET.forEach(m=>{add('chair',m.x,m.z,m.ry-Math.PI,{c:'fabB'});add('chair',m.x,m.z+11,m.ry-Math.PI,{c:'fabV'})});
+ return F}
+/* GLB : chargement, extraction et instanciation (non vérifiables hors navigateur : voir Journal 3D dans les réglages) */
+const CLS=[['reception',/reception|front[_ -]?desk/i],['mtable',/(conference|meeting).*table|table.*(conference|meeting)/i],['sofa',/sofa|couch|loveseat/i],['armchair',/arm[_ -]?chair|lounge[_ -]?chair/i],['chair',/chair|stool/i],['coffee',/coffee[_ -]?table|side[_ -]?table/i],['desk',/desk|workstation|table/i],['plant',/plant|tree|ficus|fern|flower/i],['lamp',/lamp|chandelier/i],['shelf',/shelf|shelves|bookcase|cabinet|locker|storage/i]];
+const TGT={desk:['w',1.6],chair:['h',.95],sofa:['w',2.1],armchair:['w',.95],coffee:['w',1.1],mtable:['w',4.6],reception:['w',4.6],plant:['h',1.2],lamp:['h',1.7],shelf:['w',1.6]};
+const hasMesh=o=>{let h=false;o.traverse(c=>{if(c.isMesh&&!c.isSkinnedMesh)h=true});return h};
+function extract(root,src){root.updateMatrixWorld(true);const names=[];let n=0;
+ const MAXD={desk:3.4,chair:1.8,sofa:4.5,armchair:2.4,coffee:2.8,mtable:9,reception:9,plant:3.8,lamp:3.2,shelf:3.8},take=(k,o)=>{const parts=[],inv=o.matrixWorld.clone().invert(),bb=new THREE.Box3();o.traverse(c=>{if(c.isMesh&&!c.isSkinnedMesh&&c.geometry){const rel=inv.clone().multiply(c.matrixWorld);if(!c.geometry.boundingBox)c.geometry.computeBoundingBox();bb.union(c.geometry.boundingBox.clone().applyMatrix4(rel));parts.push({geo:c.geometry,mat:c.material,rel})}});
+  const sz=bb.getSize(new THREE.Vector3());if(!parts.length||Math.max(sz.x,sz.y,sz.z)>MAXD[k]||sz.x<1e-5||sz.y<1e-5||sz.z<1e-5||!isFinite(sz.x+sz.y+sz.z))return false;LIB.kinds[k]={parts,min:bb.min.clone(),max:bb.max.clone(),size:sz,name:o.name,src};LIB.info.push(`${k} ← « ${o.name} » (${sz.x.toFixed(2)}×${sz.y.toFixed(2)}×${sz.z.toFixed(2)}) [${src}]`);return true};
+ const visit=o=>{n++;if(o.name&&names.length<60)names.push(o.name);if(o!==root&&o.name){const c=CLS.find(c=>c[1].test(o.name));if(c&&!LIB.kinds[c[0]]&&hasMesh(o)&&take(c[0],o))return}o.children.slice().forEach(visit)};
+ visit(root);log(`${src} : ${n} nœuds parcourus ; modèles reconnus : ${Object.keys(LIB.kinds).filter(k=>LIB.kinds[k].src==src).join(', ')||'aucun'}`);if(!Object.keys(LIB.kinds).some(k=>LIB.kinds[k].src==src))log(`${src} : noms rencontrés (échantillon) : ${names.slice(0,40).join(' | ')}`)}
+const withTimeout=(p,ms,msg)=>Promise.race([p,new Promise((_,j)=>setTimeout(()=>j(new Error(msg)),ms))]);
+async function loadAssets(){if(LIB.state!='idle')return;LIB.state='loading';const Ld=window.GLTFLoaderCls;if(!Ld){LIB.state='error';log('GLTFLoader indisponible : décor entièrement procédural.');return}
+ const ld=new Ld();let ok=0;
+ for(const[nm,url]of Object.entries(CFG.glb)){try{const g=await withTimeout(new Promise((res,rej)=>ld.load(url,res,undefined,rej)),CFG.timeout,'délai dépassé');extract(g.scene,nm);ok++}catch(e){log(`Échec du chargement ${nm} (${url}) : ${e&&e.message||e}`)}}
+ LIB.state=ok?'ready':'error';log(ok?`Assets GLB chargés (${ok}/${Object.keys(CFG.glb).length}).`:'Aucun GLB chargé : décor procédural.');if(R&&R.refurn)R.refurn()}
+function buildFurniture(mats,own,g){const sh=true,inst={},PZ={};
+ const zb=p=>{const id=zoneAt(p.x,p.z).id;return PZ[id]||(PZ[id]=new Batch())};
+ R.F.forEach(p=>{const L=LIB.kinds[KMAP[p.k]];if(L&&LIB.state=='ready'&&hq().glb!==false){(inst[KMAP[p.k]]=inst[KMAP[p.k]]||[]).push(p);if(p.k!='ws')return;FX.ws(zb(p),Object.assign({},p,{body:false}));return}FX[p.k]&&FX[p.k](zb(p),p)});
+ for(const id in PZ){const sg=new THREE.Group();g.add(sg);PZ[id].build(mats,own,sg,sh)}
+ for(const k in inst){const L=LIB.kinds[k],T=TGT[k],dim=T[0]=='h'?L.size.y:Math.max(L.size.x,L.size.z),s=T[1]/dim,cx=(L.min.x+L.max.x)/2,cz=(L.min.z+L.max.z)/2,M=new THREE.Matrix4(),M2=new THREE.Matrix4();
+  L.parts.forEach(pt=>{const im=new THREE.InstancedMesh(pt.geo,pt.mat,inst[k].length);inst[k].forEach((p,i)=>{M.makeRotationY((p.ry||0)+Math.PI);M.setPosition(p.x,0,p.z);M2.makeScale(s,s,s).setPosition(-cx*s,-L.min.y*s,-cz*s);im.setMatrixAt(i,M.clone().multiply(M2).multiply(pt.rel))});im.instanceMatrix.needsUpdate=true;im.frustumCulled=false;im.castShadow=sh;im.receiveShadow=sh;g.add(im);own(im)})}}
+
+/* ---- D1 : agents humanoïdes procéduraux (animations procédurales : aucun clip GLB) ---- */
+const FEM=new Set(['Lyra','Maya','Iris','Léa','Zoé','Nina','Inès','Camille','Jade','Roxane','Alma','Sofia','Lola','Nova','Mila','Salomé','Adèle']);
+const hsh=s=>{let h=7;for(const c of String(s))h=(h*31+c.charCodeAt(0))>>>0;return h};
+const SKIN=[0xf1c7a0,0xe0ac82,0xc68642,0x8d5524,0xffdbb4,0xa86b3c],HAIRC=[0x2b1b12,0x6b4423,0xd4a04a,0x111111,0x8a8a8a,0x7a2e1b,0x3b2a20],PANTS=[0x23233a,0x3a3f4a,0x5b5246,0x2b3a4a,0x4a4a52];
+const DEPC={'Direction':0x6d28d9,'Marketing':0xdb2777,'Communication':0xea580c,'Commercial':0x0d9488,'Prospection':0x0891b2,'Finance':0x15803d,'Administration':0x64748b,'Ressources humaines':0xc026d3,'Création':0xf59e0b,'Production':0x4d7c0f,'Recherche':0x1d4ed8,'Analyse':0x0e7490,'Service client':0xe11d48,'Technologie':0x4f46e5,'Développement':0x2563eb,'Sécurité':0xb91c1c,'Stratégie':0x7c3aed};
+const MCH={},M=(c,r)=>MCH[c+'|'+(r||.8)]||(MCH[c+'|'+(r||.8)]=new THREE.MeshStandardMaterial({color:c,roughness:r||.8}));
+let GE=null;const SITD=-.44,HIP=.96;
+function geos(){if(GE)return GE;const B=THREE.BoxGeometry,Sp=THREE.SphereGeometry,tr=(g,x,y,z)=>g.translate(x,y,z);
+ return GE={torsoM:new B(.4,.56,.22),torsoF:new B(.34,.54,.2),head:new Sp(.115,14,10),neck:new THREE.CylinderGeometry(.045,.05,.08,8),up:tr(new B(.085,.28,.095),0,-.14,0),fo:tr(new B(.072,.26,.082),0,-.13,0),hand:new Sp(.042,8,6),
+  th:tr(new B(.14,.44,.16),0,-.22,0),sh:tr(new B(.115,.44,.14),0,-.22,0),shoe:tr(new B(.12,.07,.26),0,-.035,.06),cap:new Sp(.124,14,10,0,Math.PI*2,0,Math.PI*.5),bun:new Sp(.055,8,6),back:new B(.2,.26,.05),eye:new B(.018,.018,.01),
+  ring:new THREE.RingGeometry(.34,.42,24).rotateX(-Math.PI/2),hit:new THREE.CylinderGeometry(.6,.6,1.9,8).translate(0,.95,0),badge:new B(.05,.05,.01),lens:new THREE.TorusGeometry(.03,.005,5,12)}}
+function mkLabel(txt,w,h,fs){const c=document.createElement('canvas');c.width=w||256;c.height=h||64;const q=c.getContext('2d');q.fillStyle='rgba(7,7,13,.8)';const r=14,W=c.width,H=c.height;q.beginPath();q.moveTo(r,2);q.arcTo(W-2,2,W-2,H-2,r);q.arcTo(W-2,H-2,2,H-2,r);q.arcTo(2,H-2,2,2,r);q.arcTo(2,2,W-2,2,r);q.fill();q.fillStyle='#f1f1f7';q.font='bold '+(fs||30)+'px system-ui,sans-serif';q.textAlign='center';q.textBaseline='middle';q.fillText(txt,W/2,H/2+2);
+ const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;const s=new THREE.Sprite(new THREE.SpriteMaterial({map:t,transparent:true,depthTest:false,toneMapped:false}));s.renderOrder=8;s.userData.lbl=1;return s}
+let VCM_=null;const VCM=()=>VCM_||(VCM_=new THREE.MeshStandardMaterial({vertexColors:true,roughness:.75}));
+/* fusion de pièces en une seule géométrie à couleurs par sommet : [géométrie, couleur, x,y,z, sx,sy,sz, rotX] */
+function mergeParts(parts){const P=[],N=[],C=[],I=[];let o=0;const c=new THREE.Color();
+ for(const[g,hex,x,y,z,sx,sy,sz,rx]of parts){const pos=g.attributes.position,nor=g.attributes.normal,idx=g.index,cr=Math.cos(rx||0),sr=Math.sin(rx||0);c.set(hex);
+  for(let k=0;k<pos.count;k++){let px=pos.getX(k)*(sx||1),py=pos.getY(k)*(sy||1),pz=pos.getZ(k)*(sz||1),nx=nor.getX(k),ny=nor.getY(k),nz=nor.getZ(k);
+   if(rx){let t=py*cr-pz*sr;pz=py*sr+pz*cr;py=t;t=ny*cr-nz*sr;nz=ny*sr+nz*cr;ny=t}P.push(px+(x||0),py+(y||0),pz+(z||0));N.push(nx,ny,nz);C.push(c.r,c.g,c.b)}
+  for(let k=0;k<idx.count;k++)I.push(idx.getX(k)+o);o+=pos.count}
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(P,3));g.setAttribute('normal',new THREE.Float32BufferAttribute(N,3));g.setAttribute('color',new THREE.Float32BufferAttribute(C,3));g.setIndex(I);return g}
+function buildAgent(a,i){const T=THREE,G=geos(),h=hsh(a.id),f=FEM.has(a.n)||(!!a.c&&h%2==0),skH=SKIN[h%6],hcH=HAIRC[(h>>3)%7],pnH=PANTS[(h>>9)%5],dc=DEPC[a.d]||0x6366f1,blz=/Direction|Finance|Stratégie|Commercial|Sécurité/.test(a.d),tone=new T.Color(dc).offsetHSL(0,0,((h>>13)%5-2)*.035).getHex(),shH=blz?0x2a2f3d:tone;
+ const hs=(f?.94:1)+((h>>7)%5)*.018,ws=(f?.93:1.02)+((h>>15)%3)*.03,g=new T.Group(),body=new T.Group(),vm=VCM();body.scale.set(ws,hs,ws);g.add(body);
+ const mesh=(geo,p)=>{const m=new T.Mesh(geo,vm);m.userData.cs=1;p.add(m);return m},piv=(p,x,y,z)=>{const q=new T.Group();q.position.set(x||0,y||0,z||0);p.add(q);return q};
+ const torso=piv(body,0,HIP,0),tw=f?.34:.4;mesh(mergeParts([[f?G.torsoF:G.torsoM,shH,0,.28,0],...(blz?[[G.badge,tone,0,.3,.111,2.4,7,1]]:[]),[G.badge,h&1?0x8b5cf6:0x38bdf8,f?.1:.12,.42,.106],[G.neck,skH,0,.6,0]]),torso);
+ const head=piv(torso,0,.62,0),style=f?['long','bun','long','bob'][(h>>5)%4]:['short','short','buzz','short'][(h>>5)%4],hp=[[G.head,skH,0,.1,0,.95,1.08,1],[G.cap,hcH,0,.105,-.012,1.06,style=='buzz'?.95:1.2,1.1,-.3]];
+ if(style=='long')hp.push([G.back,hcH,0,0,-.1,1.1,1.25,1]);if(style=='bob')hp.push([G.back,hcH,0,.07,-.1,1.15,.8,1]);if(style=='bun')hp.push([G.bun,hcH,0,.21,-.09]);[-.04,.04].forEach(x=>hp.push([G.eye,0x111111,x,.1,.108]));if((h>>11)%3==0)[-.04,.04].forEach(x=>hp.push([G.lens,0x111111,x,.1,.113]));mesh(mergeParts(hp),head);
+ const arm=s=>{const a1=piv(torso,s*(tw/2+.055),.52,0);mesh(mergeParts([[G.up,shH,0,0,0]]),a1);const fo=piv(a1,0,-.28,0);mesh(mergeParts([[G.fo,blz?shH:skH,0,0,0],[G.hand,skH,0,-.27,0]]),fo);return[a1,fo]},leg=s=>{const l=piv(body,s*.1,HIP,0);mesh(mergeParts([[G.th,pnH,0,0,0]]),l);const k=piv(l,0,-.44,0);mesh(mergeParts([[G.sh,pnH,0,0,0],[G.shoe,0x1a1a22,0,-.44,0]]),k);return[l,k]};
+ const[aL,fL]=arm(-1),[aR,fR]=arm(1),[lL,kL]=leg(-1),[lR,kR]=leg(1),det=new T.Group();
+ const ring=new T.Mesh(G.ring,new T.MeshBasicMaterial({color:0x34d399,transparent:true,opacity:.85,depthWrite:false}));ring.position.y=.05;ring.renderOrder=1;g.add(ring);
+ const icon=new T.Sprite(new T.SpriteMaterial({transparent:true,depthTest:false,toneMapped:false}));icon.scale.set(.5,.5,1);icon.position.y=2.05;icon.visible=false;icon.renderOrder=7;g.add(icon);
+ const label=mkLabel(a.n);label.scale.set(1.5,.375,1);label.position.y=2.4;label.visible=false;g.add(label);
+ const hit=new T.Mesh(G.hit,new T.MeshBasicMaterial());hit.material.visible=false;hit.userData.id=a.id;g.add(hit);
+ g.userData={id:a.id,i,hs,body,torso,head,aL,fL,aR,fR,lL,kL,lR,kR,ring,icon,label,hit,det,pz:null,st:'',p:[],k:'',mode:'',tg:null};return g}
+/* Cibles : dérivées du statut réel (S.st, HO) et des positions de postes */
+function targets(){const T={},wait=[],coll=[];AG.forEach(a=>{const s=st(a);if(s=='En attente')wait.push(a.id);else if(s=='En collaboration')coll.push(a.id)});
+ AG.forEach(a=>{const h=R.A.home[a.id]||{x:0,z:12,face:0,sit:0},s=st(a);let t={x:h.x,z:h.z,face:h.face,sit:h.sit,k:'home'};
+  if(s=='En attente'){const n=wait.indexOf(a.id),r=REP[n%REP.length];t={x:r.x,z:r.z,face:r.ry,sit:0,k:'rep'+n}}
+  else if(s=='En collaboration'){const n=coll.indexOf(a.id),m=MEET[n%8];t={x:m.x,z:m.z+(n>=8?11:0),face:m.ry,sit:1,k:'meet'+n}}
+  else if(s=='Terminé'&&HO[a.id]&&R.A.home[HO[a.id]]){const n=R.A.home[HO[a.id]];t={x:n.x+.95,z:n.z+.15,face:Math.atan2(-.95,-.15),sit:0,k:'ho'+HO[a.id]}}
+  t.mode=!t.sit?'stand':s=='En collaboration'?'meet':s=='En erreur'?'err':(s=='En réflexion'||s=='En mission')?'work':'sit';T[a.id]=t});return T}
+const PZN=11,poseFor=(u,mode,t,ph)=>{const i=u.i,s=Math.sin(ph),c=Math.cos(ph),L=-1.5708,K=1.5708;switch(mode){
+ case'walk':return[.05,0,s*.55,-.15,-s*.55,-.15,-s*.6,Math.max(0,c)*.9,s*.6,Math.max(0,-c)*.9,0];
+ case'work':return[.26,Math.sin(t*.3+i)*.12,-.6,-1.1+Math.sin(t*17+i)*.08,-.6,-1.1+Math.cos(t*14+i)*.08,L,K,L,K,1];
+ case'meet':return[.1,Math.sin(t*.7+i)*.5,-.5,-.9,-.95+Math.sin(t*2.2+i)*.3,-1+Math.sin(t*2.9+i)*.25,L,K,L,K,1];
+ case'err':return[.18,Math.sin(t*5)*.25,-.55,-1,-.55,-1,L,K,L,K,1];
+ case'sit':return[.14,Math.sin(t*.4+i*1.7)*.35,-.5,-.95,-.5,-.95,L,K,L,K,1];
+ default:return[0,Math.sin(t*.5+i)*.4,.05+Math.sin(t*1.1+i)*.03,-.12,.05,-.12,0,0,0,0,0]}};
+const angD=(a,b)=>{let d=(b-a)%(Math.PI*2);if(d>Math.PI)d-=Math.PI*2;if(d<-Math.PI)d+=Math.PI*2;return d};
+function stepAgent(u,tg,dt,t,vis){const g=u.g;if(u.k!==tg.k){u.k=tg.k;u.p=navPath([g.position.x,g.position.z],[tg.x,tg.z])}u.tg=tg;let walk=false;
+ if(u.p.length){const q=u.p[0],dx=q[0]-g.position.x,dz=q[1]-g.position.z,d=Math.hypot(dx,dz),sp=R.spd*dt;walk=true;if(d<=sp){g.position.x=q[0];g.position.z=q[1];u.p.shift()}else{g.position.x+=dx/d*sp;g.position.z+=dz/d*sp;g.rotation.y+=angD(g.rotation.y,Math.atan2(dx,dz))*Math.min(1,dt*12)}}
+ if(!u.p.length){walk=false;g.rotation.y+=angD(g.rotation.y,tg.face)*Math.min(1,dt*6)}
+ const mode=walk?'walk':tg.mode;u.mode=mode;if(!vis)return;
+ const ph=t*9+u.i,p=poseFor(u,mode,R.reduced&&mode!='walk'?0:t,ph);if(!u.pz)u.pz=p.slice();const k=1-Math.exp(-dt*(walk?20:9));for(let j=0;j<PZN;j++)u.pz[j]+=(p[j]-u.pz[j])*k;const z=u.pz;
+ u.torso.rotation.x=z[0];u.head.rotation.y=z[1];u.aL.rotation.x=z[2];u.fL.rotation.x=z[3];u.aR.rotation.x=z[4];u.fR.rotation.x=z[5];u.lL.rotation.x=z[6];u.kL.rotation.x=z[7];u.lR.rotation.x=z[8];u.kR.rotation.x=z[9];u.body.position.y=SITD*u.hs*z[10]}
+const ICN={};function icons(){if(ICN.ok)return ICN;[['En réflexion','💭'],['Terminé','✅'],['En collaboration','💬'],['En attente','⏸️'],['En erreur','⚠️'],['En mission','🚀']].forEach(e=>{const c=document.createElement('canvas');c.width=c.height=64;const q=c.getContext('2d');q.font='46px sans-serif';q.textAlign='center';q.fillText(e[1],32,50);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;ICN[e[0]]=t});ICN.ok=1;return ICN}
+const RMAT={};const ringMat=s=>RMAT[s]||(RMAT[s]=new THREE.MeshBasicMaterial({color:COL[s]||0x888888,transparent:true,opacity:.9,depthWrite:false}));
+function buildAgents(){const old=R.ag||{};for(const k in old)R.ags.remove(old[k].g);R.ag={};R.hits=[];AG.forEach((a,i)=>{const g=buildAgent(a,i),u=g.userData;u.g=g;const h=R.A.home[a.id];if(h){g.position.set(h.x,0,h.z);g.rotation.y=h.face}R.ags.add(g);R.ag[a.id]=u;R.hits.push(u.hit)});agShadow();log('Agents : '+AG.length+' personnages procéduraux fusionnés (10 pièces articulées chacun), identités visuelles différenciées.')}
+const agShadow=()=>{if(R.ags){const on=qName()=='high';R.ags.traverse(o=>{if(o.isMesh&&o.userData.cs)o.castShadow=on})}};
+
+/* ---- E : navigation sur grille (A*) : murs, ouvertures et meubles comme obstacles ---- */
+const NS=.4,NX=170,NZ=116,NOX=-34,NOZ=-23;let NAV=null;
+const DIMS={ws:p=>p.big?[2.4,1.05]:[1.6,.8],sofa:p=>[p.w||2.1,.9],armchair:()=>[.95,.9],coffee:()=>[1.1,1.1],mtable:p=>[p.w||4.6,p.d||1.6],reception:()=>[4.8,.85],plant:()=>[.5,.5],shelf:p=>[p.w||1.6,.45],rack:()=>[.7,.9],bar:()=>[.8,5.2]};
+const ci=x=>Math.floor((x-NOX)/NS),cj=z=>Math.floor((z-NOZ)/NS);
+function buildNav(F){const g=new Uint8Array(NX*NZ),block=(x0,z0,x1,z1,m)=>{for(let i=Math.max(0,ci(x0-m));i<=Math.min(NX-1,ci(x1+m));i++){const cx=NOX+(i+.5)*NS;if(cx<x0-m||cx>x1+m)continue;for(let j=Math.max(0,cj(z0-m));j<=Math.min(NZ-1,cj(z1+m));j++){const cz=NOZ+(j+.5)*NS;if(cz>=z0-m&&cz<=z1+m)g[j*NX+i]=1}}};
+ WALLS.forEach(w=>{const horiz=w.a[1]==w.b[1],lo=horiz?Math.min(w.a[0],w.b[0]):Math.min(w.a[1],w.b[1]),hi=horiz?Math.max(w.a[0],w.b[0]):Math.max(w.a[1],w.b[1]),t=(w.t||.14)/2+.22,fix=horiz?w.a[1]:w.a[0],ops=(w.op||[]).filter(o=>o.t!='win').map(o=>[o.c-o.w/2,o.c+o.w/2]).sort((p,q)=>p[0]-q[0]);let p=lo;
+  const seg=(s0,s1)=>horiz?block(s0,fix,s1,fix,t):block(fix,s0,fix,s1,t);ops.concat([[hi,hi]]).forEach(o=>{if(o[0]>p)seg(p,o[0]);p=Math.max(p,o[1])})});
+ F.forEach(p=>{const d=DIMS[p.k];if(!d)return;let[a,b]=d(p);if(Math.abs(Math.sin(p.ry||0))>.7)[a,b]=[b,a];block(p.x-a/2,p.z-b/2,p.x+a/2,p.z+b/2,.22)});return NAV={g}}
+function navPath(f,t){if(!NAV)return route(f,t);const g=NAV.g,s=[ci(f[0]),cj(f[1])],e=[ci(t[0]),cj(t[1])],N=NX*NZ,ok=(i,j)=>i>=0&&j>=0&&i<NX&&j<NZ&&(!g[j*NX+i]||Math.hypot(i-s[0],j-s[1])<=2.6||Math.hypot(i-e[0],j-e[1])<=2.6);
+ if(!ok(e[0],e[1])||!ok(s[0],s[1]))return[t];const gs=new Float32Array(N).fill(Infinity),from=new Int32Array(N).fill(-1),H=[],push=(k,fv)=>{H.push([fv,k]);let i=H.length-1;while(i>0){const p=(i-1)>>1;if(H[p][0]<=H[i][0])break;[H[p],H[i]]=[H[i],H[p]];i=p}},pop=()=>{const top=H[0],l=H.pop();if(H.length){H[0]=l;let i=0;for(;;){let a=i*2+1,b=a+1,m=i;if(a<H.length&&H[a][0]<H[m][0])m=a;if(b<H.length&&H[b][0]<H[m][0])m=b;if(m==i)break;[H[m],H[i]]=[H[i],H[m]];i=m}}return top};
+ const hf=(i,j)=>{const dx=Math.abs(i-e[0]),dz=Math.abs(j-e[1]);return Math.max(dx,dz)+.414*Math.min(dx,dz)},s0=s[1]*NX+s[0],e0=e[1]*NX+e[0];gs[s0]=0;push(s0,hf(s[0],s[1]));let found=false,it=0;
+ while(H.length&&it++<90000){const[fv,k]=pop(),i=k%NX,j=(k/NX)|0;if(fv>gs[k]+hf(i,j)+1e-4)continue;if(k==e0){found=true;break}for(let dx=-1;dx<=1;dx++)for(let dz=-1;dz<=1;dz++){if(!dx&&!dz)continue;const ni=i+dx,nj=j+dz;if(!ok(ni,nj))continue;if(dx&&dz&&(!ok(i+dx,j)||!ok(i,j+dz)))continue;const nk=nj*NX+ni,c=gs[k]+(dx&&dz?1.414:1);if(c<gs[nk]){gs[nk]=c;from[nk]=k;push(nk,c+hf(ni,nj))}}}
+ if(!found)return[t];const P=[];for(let k=e0;k!=-1;k=from[k])P.push([NOX+((k%NX)+.5)*NS,NOZ+(((k/NX)|0)+.5)*NS]);P.reverse();P[0]=[f[0],f[1]];P[P.length-1]=[t[0],t[1]];
+ const los=(a,b)=>{const d=Math.hypot(b[0]-a[0],b[1]-a[1]),n=Math.ceil(d/.2);for(let q=1;q<n;q++){const x=a[0]+(b[0]-a[0])*q/n,z=a[1]+(b[1]-a[1])*q/n;if(!ok(ci(x),cj(z)))return false}return true};
+ const out=[];let a=0;while(a<P.length-1){let b=P.length-1;while(b>a+1&&!los(P[a],P[b]))b--;out.push(P[b]);a=b}return out}
+
+/* ---- D2 : scène, qualité, caméra, boucle de rendu, contrôles ---- */
+const QL={high:{dpr:2,sh:true,sm:2048,env:true,pl:true,fps:60},medium:{dpr:1.5,sh:true,sm:1024,env:true,pl:true,fps:60},low:{dpr:1,sh:false,sm:512,env:false,pl:false,fps:30}};
+const STATS={fps:0,min:0,calls:0,tris:0,q:'',t:0,gpu:'',n:0};let PEND=null;
+const hq=()=>S.hq||(S.hq={}),isMob=()=>matchMedia('(pointer:coarse)').matches||innerWidth<760,clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const qName=()=>{const q=hq().q||'auto';return QL[q]?q:(R&&R.autoQ)||(isMob()?'medium':'high')};
+const sigNow=()=>AG.map(a=>a.id+a.d+(off(a)?1:0)).join();
+function ensure(){if(R&&R.rd)return true;if(!window.THREE)return false;const T=THREE;initH();let rd;try{rd=new T.WebGLRenderer({antialias:qName()!='low',powerPreference:'high-performance'})}catch(e){log('WebGL indisponible : '+(e.message||e));window.THREE_ERR='WebGL non pris en charge';return false}
+ R={rd,own:o=>o,running:false,last:0,sel:{},spd:3.6,reduced:matchMedia('(prefers-reduced-motion:reduce)').matches,cs:{az:.7,el:.92,dist:130,tx:0,ty:0,tz:0},lim:{d0:3.2,d1:200},fr:new T.Frustum(),mm:new T.Matrix4(),ray:new T.Raycaster(),ndc:new T.Vector2(),ag:{},hits:[]};
+ try{const gl=rd.getContext(),ex=gl.getExtension('WEBGL_debug_renderer_info');STATS.gpu=ex?gl.getParameter(ex.UNMASKED_RENDERER_WEBGL):gl.getParameter(gl.RENDERER)}catch(e){}
+ rd.outputColorSpace=T.SRGBColorSpace;rd.toneMapping=T.ACESFilmicToneMapping;rd.toneMappingExposure=1.05;rd.shadowMap.type=T.PCFSoftShadowMap;
+ const sc=R.sc=new T.Scene();sc.background=new T.Color(0xb7cbe0);sc.fog=new T.Fog(0xb7cbe0,320,900);R.cam=new T.PerspectiveCamera(28,1,1,900);
+ R.hemi=new T.HemisphereLight(0xe3ecff,0x6c5a48,1.15);sc.add(R.hemi);
+ const sun=R.sun=new T.DirectionalLight(0xfff0d6,2.6);sun.position.set(-26,46,32);const sh=sun.shadow.camera;sh.left=-44;sh.right=44;sh.top=36;sh.bottom=-36;sh.near=1;sh.far=140;sh.updateProjectionMatrix();sun.shadow.bias=-.0004;sun.shadow.normalBias=.04;sc.add(sun);
+ R.pls=[[0x8b5cf6,-14,2.8,-13,30],[0x38bdf8,11,2.8,12,26]].map(q=>{const l=new T.PointLight(q[0],q[4],16,2);l.position.set(q[1],q[2],q[3]);sc.add(l);return l});
+ const env=QL[qName()].env?envMap(rd):null;R.mats=mkMats(env);const g=R.g=new T.Group();sc.add(g);const B=new Batch();buildShell(B,R.mats,R.own,g);B.build(R.mats,R.own,g,true);
+ R.zl=[];Z.forEach(z=>{if(z.id=='cor')return;const w=clamp(z.n.length*16+50,150,560),s=mkLabel(z.n,w,64,28),c=zc(z);s.scale.set(w/55,64/55,1);s.position.set(c[0],3.9,z.r[1]+1.8);g.add(s);R.zl.push(s)});
+ R.fg=new T.Group();g.add(R.fg);R.ags=new T.Group();g.add(R.ags);
+ const lg=new T.BufferGeometry();lg.setAttribute('position',new T.BufferAttribute(new Float32Array(40*10*6),3));lg.setAttribute('color',new T.BufferAttribute(new Float32Array(40*10*6),3));lg.setDrawRange(0,0);
+ R.lines=new T.LineSegments(lg,new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.95,depthTest:false}));R.lines.renderOrder=5;R.lines.frustumCulled=false;g.add(R.lines);
+ const pg=new T.SphereGeometry(.14,8,6);R.pulses=[0,1,2,3,4,5].map(()=>{const m=new T.Mesh(pg,new T.MeshBasicMaterial({color:0x7dd3fc,depthTest:false}));m.renderOrder=6;m.visible=false;g.add(m);return m});
+ R.refurn=()=>{clearFurn();buildFurniture(R.mats,R.own,R.fg)};
+ rd.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();R.running=false;log('Contexte WebGL perdu (mémoire GPU) : retour à la vue 2D recommandé.')});
+ rd.domElement.addEventListener('webglcontextrestored',()=>{log('Contexte WebGL restauré.');R.rd&&start()});return true}
+function clearFurn(){while(R.fg.children.length){const c=R.fg.children[0];R.fg.remove(c);c.traverse(o=>{if(o.isMesh&&!o.isInstancedMesh&&o.geometry)o.geometry.dispose()})}}
+function rebuild(){R.sig=sigNow();R.glbs=hq().glb!==false;R.A=assign(AG);R.F=layoutFurn(R.A);clearFurn();buildFurniture(R.mats,R.own,R.fg);buildNav(R.F);buildAgents();log(`Bâtiment : ${Z.length} zones, ${R.F.length} éléments de mobilier, ${AG.length} agents (${Object.keys(R.A.home).filter(k=>R.A.home[k].sit).length} postes assis).`)}
+function resize(){const el=R.el;if(!el)return;const w=el.clientWidth||320,h=el.clientHeight||320;if(R.w===w&&R.h===h&&R.dq===qName())return;R.w=w;R.h=h;R.dq=qName();R.rd.setPixelRatio(Math.min(devicePixelRatio||1,QL[R.dq].dpr));R.rd.setSize(w,h,false);R.cam.aspect=w/h;R.cam.updateProjectionMatrix();R.lim.d1=fitDist()*1.25}
+function applyQ(){const q=QL[qName()],rd=R.rd;STATS.q=qName();rd.shadowMap.enabled=q.sh;R.sun.castShadow=q.sh;if(q.sh){R.sun.shadow.mapSize.set(q.sm,q.sm);if(R.sun.shadow.map){R.sun.shadow.map.dispose();R.sun.shadow.map=null}}R.pls.forEach(l=>l.visible=q.pl);R.hemi.intensity=q.sh?1.15:1.7;for(const k in R.mats)R.mats[k].needsUpdate=true;for(const k in MCH)MCH[k].needsUpdate=true;if(VCM_)VCM_.needsUpdate=true;agShadow();resize()}
+const fovFor=d=>28+24*(1-clamp((d-18)/80,0,1)),fitDist=()=>{const asp=(R.w||1)/(R.h||1),vf=28*Math.PI/180,hf=2*Math.atan(Math.tan(vf/2)*asp);return 31/Math.sin(Math.min(vf,hf)/2)};
+function flyTo(to,dur){if(R.reduced){Object.assign(R.cs,to);R.anim=null;return}R.anim={from:Object.assign({},R.cs),to:Object.assign({},R.cs,to),t:0,dur:dur||1}}
+function overview(now){const to={az:(R.w/R.h)<.9?1.15:.7,el:.92,dist:fitDist(),tx:0,ty:0,tz:0};if(now===true)Object.assign(R.cs,to);else flyTo(to,1.1);setSel({});if(R.el){const b=R.el.querySelector('#hq-z'),c=R.el.querySelector('#hq-a');if(b)b.value='';if(c)c.value=''}}
+function camUpdate(dt){const c=R.cs,a=R.anim;if(a){a.t=Math.min(1,a.t+dt/a.dur);const k=a.t<.5?2*a.t*a.t:1-Math.pow(-2*a.t+2,2)/2;for(const key of['tx','ty','tz','dist','el'])c[key]=a.from[key]+(a.to[key]-a.from[key])*k;c.az=a.from.az+angD(a.from.az,a.to.az)*k;if(a.t>=1)R.anim=null}
+ c.dist=clamp(c.dist,R.lim.d0,R.lim.d1);c.el=clamp(c.el,.18,1.5);c.tx=clamp(c.tx,-34,34);c.tz=clamp(c.tz,-26,26);const cam=R.cam,ce=Math.cos(c.el);cam.position.set(c.tx+c.dist*Math.sin(c.az)*ce,c.ty+c.dist*Math.sin(c.el),c.tz+c.dist*Math.cos(c.az)*ce);cam.lookAt(c.tx,c.ty,c.tz);
+ cam.fov=fovFor(c.dist);cam.near=Math.max(.15,c.dist*.025);cam.far=c.dist*5+400;cam.updateProjectionMatrix();cam.updateMatrixWorld();const m=c.dist>60?'Vue isométrique':'Visite rapprochée';if(R.modeTxt!==m){R.modeTxt=m;const e=R.el&&R.el.querySelector('#hq-mode');if(e)e.textContent=m}}
+function zoomBy(k){R.anim=null;R.cs.dist=clamp(R.cs.dist*k,R.lim.d0,R.lim.d1)}
+function doPan(dx,dy){R.anim=null;const c=R.cs,sc=2*c.dist*Math.tan(R.cam.fov*Math.PI/360)/(R.h||400),s=Math.sin(c.az),co=Math.cos(c.az),f=dy*sc/Math.max(.35,Math.sin(c.el));c.tx+=-co*dx*sc-s*f;c.tz+=s*dx*sc-co*f}
+function pickAt(e){const dom=R.rd.domElement,r=dom.getBoundingClientRect();R.ndc.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);R.ray.setFromCamera(R.ndc,R.cam);const ah=R.ray.intersectObjects(R.hits,false)[0];if(ah)return{agent:ah.object.userData.id};const fh=R.ray.intersectObjects(R.pick,false)[0];return fh?{zone:fh.object.userData.zone}:null}
+function bind(dom){const P=new Map();let tap=null,pinch=0,mid=null,hv=0;
+ dom.addEventListener('pointerdown',e=>{try{dom.setPointerCapture(e.pointerId)}catch(_){}P.set(e.pointerId,{x:e.clientX,y:e.clientY});R.anim=null;if(P.size==1)tap={t:performance.now(),m:0};else{tap=null;const[a,b]=[...P.values()];pinch=Math.hypot(a.x-b.x,a.y-b.y);mid=[(a.x+b.x)/2,(a.y+b.y)/2]}});
+ dom.addEventListener('pointermove',e=>{const p=P.get(e.pointerId);if(!p){if(e.pointerType=='mouse'&&performance.now()-hv>90){hv=performance.now();const h=pickAt(e);R.hover=h&&h.agent||null;dom.style.cursor=h?'pointer':'grab'}return}const dx=e.clientX-p.x,dy=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;
+  if(P.size==1){if(tap)tap.m+=Math.abs(dx)+Math.abs(dy);if(R.pan||e.shiftKey||(e.buttons&2)||(e.buttons&4))doPan(dx,dy);else{R.cs.az-=dx*.007;R.cs.el=clamp(R.cs.el+dy*.006,.18,1.5)}}
+  else if(P.size==2){const[a,b]=[...P.values()],d=Math.hypot(a.x-b.x,a.y-b.y),m=[(a.x+b.x)/2,(a.y+b.y)/2];if(pinch>0&&d>0)zoomBy(pinch/d);doPan(m[0]-mid[0],m[1]-mid[1]);pinch=d;mid=m}});
+ const up=e=>{if(!P.has(e.pointerId))return;const ok=P.size==1&&tap&&tap.m<8&&performance.now()-tap.t<650&&e.type=='pointerup';P.delete(e.pointerId);if(ok){tap=null;const h=pickAt(e);if(h&&h.agent){setSel({agent:h.agent});op(h.agent)}else if(h&&h.zone){setSel({zone:h.zone});panel(h.zone)}else{setSel({});closePanel()}}if(P.size<2)pinch=0;if(P.size==0)tap=null};
+ dom.addEventListener('pointerup',up);dom.addEventListener('pointercancel',up);dom.addEventListener('wheel',e=>{e.preventDefault();zoomBy(Math.exp(e.deltaY*.0014))},{passive:false});dom.addEventListener('contextmenu',e=>e.preventDefault());dom.style.cursor='grab'}
+function setSel(s){R.sel=s||{};for(const z in R.glow){R.glow[z].visible=R.sel.zone==z;R.glow[z].material.opacity=R.sel.zone==z?.28:0}if(!R.sel.zone&&!R.sel.agent)closePanel(true)}
+function start(){if(R.running)return;R.running=true;R.last=performance.now();R.fa=0;R.ft=R.last;requestAnimationFrame(loop)}
+function updLinks(t){const pa=R.lines.geometry.attributes.position,ca=R.lines.geometry.attributes.color,P_=pa.array,C=ca.array;let n=0,np=0;const selM=R.selMission;
+ const ms=S.ms.filter(m=>m.s=='En cours'||m.id==selM);for(const m of ms){for(let j=0;j<m.steps.length-1&&n<40;j++){const u0=R.ag[m.steps[j].a],u1=R.ag[m.steps[j+1].a];if(!u0||!u1||u0==u1)continue;const x0=u0.g.position.x,z0=u0.g.position.z,x1=u1.g.position.x,z1=u1.g.position.z,d=Math.hypot(x1-x0,z1-z0),hy=2.5+Math.min(9,d*.2);
+   const done=m.steps[j].st=='ok',act=done&&m.steps[j+1].st!='ok',col=act?[.22,.74,.97]:done?[.2,.83,.6]:[.55,.55,.68],br=m.id==selM||act?1:.55;
+   for(let k=0;k<10;k++){const a=k/10,b=(k+1)/10,pt=s=>[x0+(x1-x0)*s,2.5+(hy-2.5)*4*s*(1-s),z0+(z1-z0)*s];const A_=pt(a),B_=pt(b),o=(n*10+k)*6;P_.set([A_[0],A_[1],A_[2],B_[0],B_[1],B_[2]],o);C.set([col[0]*br,col[1]*br,col[2]*br,col[0]*br,col[1]*br,col[2]*br],o)}
+   if(act&&np<6){const s=(t*.5+j*.3)%1,pl=R.pulses[np++];pl.visible=true;pl.position.set(x0+(x1-x0)*s,2.5+(hy-2.5)*4*s*(1-s),z0+(z1-z0)*s)}n++}}
+ for(let k=np;k<6;k++)R.pulses[k].visible=false;R.lines.geometry.setDrawRange(0,n*20);pa.needsUpdate=ca.needsUpdate=true;R.nlinks=n}
+function loop(){if(!R.running)return;const el=R.el;if(!el||!el.isConnected||document.hidden){R.running=false;return}requestAnimationFrame(loop);
+ const q=QL[qName()],n=performance.now();if(n-R.last<1000/q.fps-3)return;const dt=Math.min((n-R.last)/1000,.1);R.last=n;const t=n/1000;if(el.clientWidth!==R.w||el.clientHeight!==R.h)resize();
+ camUpdate(dt);const TG=targets(),cam=R.cam;R.mm.multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse);R.fr.setFromProjectionMatrix(R.mm);const dist=R.cs.dist;
+ for(const id in R.ag){const u=R.ag[id],a=ag(id),tg=TG[id];if(!tg)continue;const s=st(a);if(u.st!==s){u.st=s;u.ring.material=ringMat(s);u.icN=icons()[s]||null;if(u.icN){u.icon.material.map=u.icN;u.icon.material.needsUpdate=true}}
+  _v.set(u.g.position.x,1,u.g.position.z);const vis=R.fr.containsPoint(_v),near=u.g.position.distanceTo(cam.position);stepAgent(u,tg,dt,t,vis&&dist<160);
+  u.det.visible=near<32;u.icon.visible=!!u.icN&&vis&&near<120;const isel=R.sel.agent==id;u.label.visible=vis&&(isel||R.hover==id||near<26);u.ring.scale.setScalar(isel?1.3+.1*Math.sin(t*5):1)}
+ for(const s of R.zl)s.visible=dist>11;const wt=(hq().roof||hq().walls=='high')?1:.36;R.wg.scale.y+=(wt-R.wg.scale.y)*Math.min(1,dt*6);R.roof.visible=!!hq().roof;updLinks(t);R.rd.render(R.sc,cam);
+ R.fa++;if(n-R.ft>=500){const fps=R.fa*1000/(n-R.ft);R.fa=0;R.ft=n;R.warm=(R.warm||0)+1;STATS.fps=Math.round(fps);if(R.warm>2)STATS.min=STATS.n?Math.min(STATS.min,STATS.fps):STATS.fps,STATS.n++;STATS.calls=R.rd.info.render.calls;STATS.tris=R.rd.info.render.triangles;STATS.t=Date.now();STATS.q=qName();
+  const fe=el.querySelector('#hqf');if(fe){fe.hidden=!hq().fps;fe.textContent=`${STATS.fps} FPS · ${STATS.q} · ${STATS.calls} appels · ${Math.round(STATS.tris/1000)}k tri`}
+  if((hq().q||'auto')=='auto'&&R.warm>3&&fps<22){R.lowc=(R.lowc||0)+1;if(R.lowc>=3){const nx={high:'medium',medium:'low'}[qName()];if(nx){R.autoQ=nx;R.lowc=0;R.warm=0;applyQ();log('Qualité abaissée automatiquement : '+nx+' (FPS < 22).')}}}else R.lowc=0}}
+
+/* ---- D3 : interface, panneaux, API publique ---- */
+function buildUI(el){const zo=Z.filter(z=>z.id!='cor').map(z=>`<option value="${z.id}">${E(z.n)}</option>`).join(''),ao=AG.map(a=>`<option value="${a.id}">${E(a.n)} · ${E(a.d)}</option>`).join('');
+ el.insertAdjacentHTML('beforeend',`<div class=hqt><button class=hqb onclick="HQ.overview()" aria-label="Vue générale">🏢<span> Vue générale</span></button><button class=hqb onclick="HQ.zoom(.7)" aria-label="Zoom avant">＋</button><button class=hqb onclick="HQ.zoom(1.4)" aria-label="Zoom arrière">－</button><button class=hqb onclick="HQ.rot(-.5)" aria-label="Pivoter à gauche">⟲</button><button class=hqb onclick="HQ.rot(.5)" aria-label="Pivoter à droite">⟳</button><button class=hqb id=hq-pan onclick="HQ.togglePan()" aria-pressed="${!!R.pan}">✋<span> Déplacer</span></button><button class=hqb onclick="HQ.toggle('roof')" aria-label="Afficher ou retirer le toit">🏠<span> Toit</span></button><button class=hqb onclick="HQ.toggle('walls')" aria-label="Murs hauts ou bas">🧱<span> Murs</span></button></div>
+ <div class=hqt2><select id=hq-z onchange="HQ.goZone(this.value)" aria-label="Aller à un département"><option value="">Département…</option>${zo}</select><select id=hq-a onchange="HQ.goAgent(this.value)" aria-label="Aller à un agent"><option value="">Agent…</option>${ao}</select><span class=hqm id=hq-mode></span></div><div id=hqp class=hqp hidden></div><div id=hqf class=hqf ${hq().fps?'':'hidden'}></div>`)}
+function syncSelects(){const s=R.el&&R.el.querySelector('#hq-a');if(s){const v=s.value;s.innerHTML='<option value="">Agent…</option>'+AG.map(a=>`<option value="${a.id}">${E(a.n)} · ${E(a.d)}</option>`).join('');s.value=v}}
+function panel(zid){const box=R&&R.el&&R.el.querySelector('#hqp');if(!box)return;const z=ZB(zid);if(!z)return;
+ const L=z.dep.length?AG.filter(a=>z.dep.includes(a.d)):AG.filter(a=>{const u=R.ag[a.id];return u&&zoneAt(u.g.position.x,u.g.position.z).id==zid}),ids=new Set(L.map(a=>a.id)),ms=S.ms.filter(m=>m.steps.some(x=>ids.has(x.a))),run=ms.filter(m=>m.s=='En cours'||m.s=='En attente'||m.s=='En validation'),done=ms.filter(m=>m.s=='Terminée').length,act=L.filter(a=>st(a)!='Disponible').length,msgs=S.msg.filter(x=>ids.has(x.f)||ids.has(x.t)).length,sc=box.scrollTop;
+ box.innerHTML=`<div class=hqph><b>${E(z.n)}</b><button onclick="HQ.closePanel()" aria-label="Fermer">✕</button></div><div class=s>${E(z.d)}</div><div class=hqk>${[['Agents',L.length],['Actifs',act],['Missions',run.length],['Terminées',done]].map(x=>`<div><b>${x[1]}</b><span>${x[0]}</span></div>`).join('')}</div>
+ <div class=s>${msgs} échange(s) · ${z.dep.length?'Départements : '+E(z.dep.join(', ')):'Zone commune'}</div><div>${L.map(a=>`<button class=ab onclick="op('${a.id}')"><span class=dot style="background:${COL[st(a)]}"></span>${E(a.n)} <span class=s>${E(a.j)}</span></button>`).join('')||'<div class=s>Personne ici pour le moment.</div>'}</div>
+ <div class=s style="margin-top:6px"><b>Missions en cours</b></div>${run.map(m=>`<div class=s>• ${E(m.title)} <span class=bd>${E(m.s)}</span></div>`).join('')||'<div class=s>Aucune.</div>'}<div class=row><button class=p onclick="HQ.visitZone('${zid}')">Se rapprocher</button></div>`;box.hidden=false;box.scrollTop=sc;R.panelZ=zid}
+function closePanel(silent){const b=R&&R.el&&R.el.querySelector('#hqp');if(b)b.hidden=true;if(R){R.panelZ=null;if(!silent)setSel({})}}
+function visitZone(zid){if(V!='bureau'){PEND={t:'z',id:zid};go('bureau');return}if(!R||!R.el||!ZB(zid))return;const z=ZB(zid),c=zc(z),span=Math.max(z.r[2]-z.r[0],z.r[3]-z.r[1]);flyTo({tx:c[0],tz:c[1],ty:0,dist:clamp(span*.95+4,9,26),el:.8,az:.45},1.1);setSel({zone:zid});panel(zid);const s=R.el.querySelector('#hq-z');if(s)s.value=zid}
+function visitAgent(id){if(!AG.some(a=>a.id==id))return toast('Agent introuvable');if(V!='bureau'){PEND={t:'a',id};cl();go('bureau');return}if(!R||!R.el||!R.ag[id])return toast('Vue 3D indisponible : utilisez la vue simplifiée.');cl();const u=R.ag[id],p=u.g.position;flyTo({tx:p.x,tz:p.z,ty:.9,dist:6.5,el:.5,az:u.g.rotation.y+.5},1.1);setSel({agent:id});const s=R.el.querySelector('#hq-a');if(s)s.value=id}
+function visitMission(mid){if(V!='bureau'){PEND={t:'m',id:mid};go('bureau');return}if(!R||!R.el)return toast('Vue 3D indisponible');const m=S.ms.find(x=>x.id==mid);if(!m)return;const us=m.steps.map(x=>R.ag[x.a]).filter(Boolean);if(!us.length)return;let x0=1e9,x1=-1e9,z0=1e9,z1=-1e9;us.forEach(u=>{const p=u.g.position;x0=Math.min(x0,p.x);x1=Math.max(x1,p.x);z0=Math.min(z0,p.z);z1=Math.max(z1,p.z)});R.selMission=mid;flyTo({tx:(x0+x1)/2,tz:(z0+z1)/2,ty:0,dist:clamp(Math.max(x1-x0,z1-z0)*1.1+14,16,100),el:.85,az:.5},1.2);setSel({});toast('Collaboration : '+us.length+' agents liés par la mission')}
+function toggle(k){const h=hq();if(k=='walls')h.walls=h.walls=='high'?'low':'high';else if(k=='glb')h.glb=h.glb===false;else h[k]=!h[k];save();if(k=='fps'&&R&&R.el){const f=R.el.querySelector('#hqf');if(f)f.hidden=!h.fps}if(k=='glb'&&R&&R.rd)R.sig=null;toast({roof:h.roof?'Toit en place':'Toit retiré',walls:h.walls=='high'?'Murs hauts':'Murs bas (coupe)',fps:h.fps?'FPS affichés':'FPS masqués',glb:h.glb===false?'Mobilier GLB désactivé':'Mobilier GLB activé'}[k]||'OK')}
+function togglePan(){if(!R)return;R.pan=!R.pan;const b=R.el&&R.el.querySelector('#hq-pan');if(b)b.setAttribute('aria-pressed',!!R.pan)}
+function setq(v){hq().q=v;save();if(R){R.autoQ=null;if(R.rd)applyQ()}toast('Qualité : '+v)}
+function sync(){if(!R||!R.rd||!R.built||!R.el)return;if(R.sig!==sigNow()||R.glbs!==(hq().glb!==false)){rebuild();syncSelects()}if(R.panelZ)panel(R.panelZ)}
+function mount(el){if(!el)return;if(!ensure()){PEND=null;el.innerHTML=`<div class=s style="padding:14px">${window.THREE_ERR?'3D indisponible : '+E(window.THREE_ERR)+'.':window.THREE?'WebGL non pris en charge par cet appareil.':'Bibliothèque 3D en cours de chargement ou indisponible (hors ligne ?).'} Utilisez la vue simplifiée ci-dessous.</div>`;return}
+ R.el=el;el.innerHTML='';el.style.position='relative';const dom=R.rd.domElement;dom.style.cssText='display:block;width:100%;height:100%;touch-action:none;outline:none';el.appendChild(dom);buildUI(el);R.modeTxt=null;R.warm=0;R.w=0;
+ if(!R.built){R.built=1;rebuild();bind(dom);applyQ();overview(true);loadAssets()}else{resize();if(R.sig!==sigNow()||R.glbs!==(hq().glb!==false))rebuild()}
+ start();if(PEND){const p=PEND;PEND=null;setTimeout(()=>{p.t=='a'?visitAgent(p.id):p.t=='m'?visitMission(p.id):visitZone(p.id)},80)}}
+function techHTML(){const s=STATS,h=hq(),ago=s.t?Math.round((Date.now()-s.t)/1000)+' s':'—',nk=Object.keys(LIB.kinds).length;
+ return `<div class=c><b>Paramètres techniques 3D</b><div class=s>FPS (dernière mesure dans la vue Bureau) : <b>${s.t?s.fps:'—'}</b> · minimum ${s.t?s.min:'—'} · mesuré il y a ${ago}<br>Qualité active : ${E(s.q||'—')} · appels de rendu : ${s.calls} · triangles : ${s.tris}<br>GPU : ${E(s.gpu||'—')}<br>Objectif : 30 FPS minimum, 60 si possible. La mesure ne tourne que lorsque la vue Bureau est ouverte.</div>
+ <div class=row><select id=hqq onchange="HQ.setq(this.value)" aria-label="Qualité graphique">${[['auto','Qualité : automatique'],['high','Qualité : élevée'],['medium','Qualité : équilibrée'],['low','Mode simplifié (sans ombres)']].map(o=>`<option value=${o[0]}${(h.q||'auto')==o[0]?' selected':''}>${o[1]}</option>`).join('')}</select><button onclick="HQ.toggle('fps');draw(1)">FPS dans le Bureau : ${h.fps?'oui':'non'}</button><button onclick="HQ.toggle('glb');draw(1)">Mobilier GLB : ${h.glb===false?'désactivé':'activé'}</button></div>
+ <div class=s>Assets GLB : ${E(LIB.state)} · ${nk} type(s) de meuble extrait(s)${LIB.info.length?'<br>'+LIB.info.map(E).join('<br>'):''}</div><div class=s>Journal 3D (les 25 derniers événements) :</div><pre>${E(LOGS.slice(-25).join('\n')||'(vide : ouvrez la vue Bureau)')}</pre><div class=row><button onclick="draw(1)">Actualiser</button></div></div>`}
+return{debug:()=>R,resume:()=>{if(R&&R.rd&&R.el&&R.el.isConnected)start()},buildNav,navPath,CFG,LOGS,STATS,Z,ZB,zc,zoneAt,route,assign,layoutFurn,WALLS,PT,GR,seatFor,MEET,REP,COLS,mount,sync,overview:()=>{if(R&&R.rd){R.selMission=null;overview()}},zoom:k=>{if(R&&R.rd)zoomBy(k)},rot:d=>{if(R&&R.rd){R.anim=null;R.cs.az+=d}},togglePan,toggle,goZone:v=>{if(v)visitZone(v)},goAgent:v=>{if(v)visitAgent(v)},visitAgent,visitZone,visitMission,closePanel,tech:techHTML,setq,lib:()=>LIB};
+})();
+
+const init3=()=>HQ.mount($('#c3')),upd3=()=>HQ.sync();
+addEventListener('hq-three',()=>{if(V=='bureau')draw(1)});document.addEventListener('visibilitychange',()=>{if(!document.hidden&&V=='bureau')HQ.resume()});
+
+/* --- Automatisations locales : actives seulement page ouverte --- */
+const EV={5:'toutes les 5 min (test)',60:'chaque heure',1440:'chaque jour',10080:'chaque semaine',43200:'chaque mois (30 jours)'};
+const PRE=[['Rapport quotidien','Prépare un rapport quotidien de l’activité et des priorités',1440],['Missions de la semaine','Organise le travail de l’équipe pour la semaine',10080],['Bilan mensuel','Génère un bilan mensuel et propose des améliorations',43200],['Calendrier de publications','Prépare un calendrier de publications pour les réseaux sociaux',10080]];
+let AE=null;
+const AL=()=>S.au.map(a=>`<div class=c><b>${E(a.t)}</b> <span class=bd>${a.on?'Active':'En pause'}</span> <span class=bd>${EV[a.ev]||a.ev+' min'}</span><div class=s>${E(a.req)}</div><div class=s>Dernière exécution : ${a.last?new Date(a.last).toLocaleString('fr-FR'):'jamais'} · prochaine : ${a.on?new Date(a.next).toLocaleString('fr-FR'):'en pause'}</div>
+ <div class=row><button onclick="atg('${a.id}')">${a.on?'Mettre en pause':'Activer'}</button><button onclick="aed('${a.id}')">Modifier</button><button onclick="arun('${a.id}')">Exécuter maintenant</button><button class=d onclick="adl('${a.id}')">Supprimer</button></div></div>`).join('')||'<div class=s>Aucune automatisation. Choisissez un modèle ci-dessus ou écrivez la vôtre.</div>';
+function apre(i){const p=PRE[i];AE=null;$('#at').value=p[0];$('#ar').value=p[1];$('#ae').value=p[2];$('#asb').textContent='Créer'}
+function asv(){const t=$('#at').value.trim(),r=$('#ar').value.trim(),ev=+$('#ae').value;if(!t||!r)return toast('Renseignez un titre et une demande');
+ if(AE){Object.assign(S.au.find(x=>x.id==AE),{t,req:r,ev,next:Date.now()+ev*6e4})}else S.au.unshift({id:uid(),t,req:r,ev,on:true,last:0,next:Date.now()+ev*6e4});
+ AE=null;save();draw(1);toast('Automatisation enregistrée')}
+function aed(id){const a=S.au.find(x=>x.id==id);AE=id;$('#at').value=a.t;$('#ar').value=a.req;$('#ae').value=a.ev;$('#asb').textContent='Mettre à jour';$('#at').focus()}
+function atg(id){const a=S.au.find(x=>x.id==id);a.on=!a.on;if(a.on)a.next=Date.now()+a.ev*6e4;save();draw()}
+function adl(id){if(!confirm('Supprimer cette automatisation ?'))return;S.au=S.au.filter(x=>x.id!=id);save();draw()}
+function arun(id,q){const a=S.au.find(x=>x.id==id);a.last=Date.now();a.next=a.last+a.ev*6e4;save();mk(a.t,a.req,'Normale','',plan(a.req));if(!q)toast('Mission créée');draw()}
+function tick(){const n=Date.now();S.au.forEach(a=>{if(a.on&&n>=a.next)arun(a.id,1)})}
+setInterval(tick,3e4);setTimeout(tick,1500);
+
+/* --- Agents personnalisés --- */
+let CE=null;
+function syncCA(){for(let i=AG.length-1;i>=0;i--)if(AG[i].c)AG.splice(i,1);AG.push(...S.ca)}
+const CL=()=>S.ca.map(a=>`<div class=c><span class=av>${E(a.n[0]||'?')}</span><b>${E(a.n)}</b> <span class=bd>${E(a.d)}</span> ${off(a)?'<span class=bd>Désactivé</span>':''}<div class=s>${E(a.j)} · ${E(a.s.join(', '))} · ${E(a.perm)}</div>
+ <div class=row><button onclick="op('${a.id}')">Fiche</button><button onclick="cxe('${a.id}')">Modifier</button><button onclick="cxd('${a.id}')">Dupliquer</button><button onclick="cxt('${a.id}')">${off(a)?'Activer':'Désactiver'}</button><button class=d onclick="cxx('${a.id}')">Supprimer</button></div></div>`).join('')||'<div class=s>Aucun agent personnalisé pour l’instant.</div>';
+function cxs(){const n=$('#xn').value.trim(),j=$('#xj').value.trim();if(!n||!j)return toast('Le nom et le métier sont obligatoires');
+ let k=$('#xs').value.split(',').map(x=>x.trim()).filter(Boolean);if(!k.length)k=['polyvalence'];if(k.length<2)k.push('coordination');
+ const v={n,j,d:$('#xd').value,s:k,ins:$('#xi').value.trim(),mem:$('#xm').value.trim(),perm:$('#xp').value};
+ if(CE)Object.assign(S.ca.find(a=>a.id==CE),v);else S.ca.push({id:'C'+uid(),c:1,...v});
+ CE=null;save();syncCA();draw(1);toast('Agent enregistré')}
+function cxe(id){const a=S.ca.find(x=>x.id==id);CE=id;$('#xn').value=a.n;$('#xj').value=a.j;$('#xd').value=a.d;$('#xs').value=a.s.join(', ');$('#xi').value=a.ins;$('#xm').value=a.mem;$('#xp').value=a.perm;$('#xb').textContent='Mettre à jour';$('#xn').focus()}
+function cxd(id){const a=S.ca.find(x=>x.id==id);S.ca.push({...a,s:[...a.s],id:'C'+uid(),n:a.n+' (copie)'});save();syncCA();draw();toast('Agent dupliqué')}
+function cxt(id){const i=S.off.indexOf(id);i<0?S.off.push(id):S.off.splice(i,1);save();draw()}
+function cxx(id){if(!confirm('Supprimer cet agent ? Ses missions passées resteront, marquées « Agent supprimé ».'))return;S.ca=S.ca.filter(a=>a.id!=id);S.off=S.off.filter(x=>x!=id);syncCA();save();draw()}
+/* --- Assistant de configuration : proposition d'équipe par règles simples --- */
+const CM=['Marketing','Communication','Commercial','Service client','Finance','Création'],EN=['Stratégie','Marketing','Finance','Administration','Commercial'];
+const TY={Commerce:CM,Boutique:CM,Artisan:CM,'Créateur de contenu':['Création','Communication','Marketing','Analyse'],Entrepreneur:EN,'Indépendant':EN,Particulier:['Administration','Finance','Recherche','Stratégie'],Autre:['Stratégie','Analyse','Communication']};
+function fprop(){const g=i=>$('#'+i).value.trim(),ty=g('ft'),tx=g('fo')+' '+g('fd')+' '+g('fa'),big=/PME|Grande/.test(ty);
+ S.pf={type:ty,nom:g('fn'),sect:g('fs'),obj:g('fo'),diff:g('fd'),tach:g('fa'),nb:+g('fb')||0,auto:g('fu')};if(S.pf.nom)S.ws=S.pf.nom;
+ const d=['Direction',...(big?DEP:TY[ty]||TY.Autre)];R.forEach(r=>{if(r[0].test(tx))r[1].forEach(x=>d.includes(x)||d.push(x))});
+ const L=AG.filter(a=>d.includes(a.d)),n=S.pf.nb||(big?AG.length:12),f1=L.filter((a,i)=>L.findIndex(b=>b.d==a.d)==i),f2=L.filter((a,i)=>L.findIndex(b=>b.d==a.d)!=i);
+ const ok=new Set([...new Set(['A01','A02',...f1.map(a=>a.id),...f2.map(a=>a.id)])].slice(0,Math.max(n,2)));save();
+ $('#ft2').innerHTML=`<div class=c><b>Équipe proposée : ${ok.size} agents</b><div class=s>Cochez ou décochez librement, puis appliquez. Orion et Lyra (direction et contrôle qualité) restent toujours actifs.</div>${DEP.map(x=>{const m=AG.filter(a=>a.d==x);return m.length?`<div class=s style="margin-top:6px"><b>${x}</b></div>`+m.map(a=>`<label class=ab><input type=checkbox style="width:auto;margin:0" class=fk value="${a.id}"${ok.has(a.id)?' checked':''}${a.id=='A01'||a.id=='A02'?' disabled checked':''}> ${E(a.n)} <span class=s>${E(a.j)}</span></label>`).join(''):''}).join('')}<div class=row><button class=p onclick="fapp()">Appliquer cette équipe</button></div></div>`;toast('Équipe proposée')}
+function fapp(){const on=new Set([...document.querySelectorAll('.fk:checked')].map(x=>x.value));S.off=AG.filter(a=>a.id!='A01'&&a.id!='A02'&&!on.has(a.id)).map(a=>a.id);save();toast('Équipe appliquée : '+(AG.length-S.off.length)+' agents actifs')}
+
+/* --- Fiche agent --- */
+const chH=id=>(S.chat[id]||[]).map(m=>`<div class=s><b>${m[0]?'Vous':ag(id).n}</b> : ${E(m[1])}</div>`).join('');
+function op(id){const a=ag(id),M=$('#md');M.hidden=false;M.onclick=e=>{if(e.target.id=='md')cl()};
+ M.innerHTML=`<div class=mb><div style="display:flex;justify-content:space-between;align-items:center"><span><span class=av>${a.n[0]}</span><b style="font-size:18px">${a.n}</b></span><button onclick="cl()" aria-label="Fermer">✕</button></div>
+ <div class=s style="margin:8px 0">${a.j} · ${a.d} · <span class=dot style="background:${COL[st(a)]}"></span> ${st(a)} · ID ${a.id}</div>
+ <p><b>Compétences :</b> ${a.s.join(', ')}</p>
+ <p class=s><b>Instructions :</b> ${a.ins?E(a.ins):`Tu es ${a.n}, ${a.j}. Reste dans ton domaine (${a.s.join(', ')}), signale tes limites et ne prétends jamais avoir exécuté une action externe.`}</p>${a.mem?`<p class=s><b>Mémoire de travail :</b> ${E(a.mem)}</p>`:''}
+ <p class=s><b>Missions :</b> ${S.ms.filter(m=>m.steps.some(x=>x.a==id)).map(m=>E(m.title)+' ('+m.s+')').join(' ; ')||'aucune'}<br><b>Échanges :</b> ${S.msg.filter(x=>x.f==id||x.t==id).length}</p>
+ <div id=ch>${chH(id)}</div><input id=ci placeholder="Message pour ${a.n}"><div class=row><button class=p onclick="snd('${id}')">Envoyer</button><button onclick="asg('${id}')">Attribuer une tâche</button><button onclick="HQ.visitAgent('${id}')">Voir au bureau</button></div></div>`}
+function cl(){$('#md').hidden=true}
+function snd(id){const v=$('#ci').value.trim();if(!v)return;const a=ag(id);(S.chat[id]=S.chat[id]||[]).push([1,v],[0,`Sur « ${v.slice(0,80)} » : je clarifierais l'objectif, puis je mobiliserais ${a.s[0]} et ${a.s[1]} pour proposer trois actions. (Réponse du moteur local de démonstration, pas d'IA réelle.)`]);save();$('#ch').innerHTML=chH(id);$('#ci').value=''}
+function asg(id){const t=(prompt('Titre de la tâche ?')||'').trim();if(!t)return;mk(t,t,'Normale','',[id]);cl();go('miss')}
+
+draw(1);
+</script></body></html>
